@@ -33,12 +33,20 @@
 			);
 			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;
 		};
+		E1457BE62F891530000DD16C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				NetworkError.swift,
+				NetworkService.swift,
+			);
+			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E1457BBD2F88F167000DD16C /* IOSWeatherApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E1457BCD2F88F169000DD16C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = IOSWeatherApp; sourceTree = "<group>"; };
 		E1457BD62F88FAEF000DD16C /* DI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DI; sourceTree = "<group>"; };
-		E1457BD72F88FAFC000DD16C /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
+		E1457BD72F88FAFC000DD16C /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E1457BE62F891530000DD16C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
 		E1457BD82F88FB06000DD16C /* Location */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Location; sourceTree = "<group>"; };
 		E1457BDA2F88FB1E000DD16C /* Weather */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Weather; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
