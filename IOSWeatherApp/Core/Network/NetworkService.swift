@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    
+    func request<T: Decodable>(url: URL) async throws -> T
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -21,6 +21,7 @@ final class NetworkService: NetworkServiceProtocol {
     
     
     func request<T: Decodable>(url: URL) async throws -> T {
+        
         do {
             let (data, response) = try await session.data(from: url)
             
@@ -40,6 +41,7 @@ final class NetworkService: NetworkServiceProtocol {
             } catch {
                 throw NetworkError.decodingError(error)
             }
+            
         } catch let error as NetworkError {
             throw error
         } catch let error as NSError {
