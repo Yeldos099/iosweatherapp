@@ -44,7 +44,10 @@
 		E14505B82F8A57FF00465750 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Builder/Builder.swift,
 				Model/WeatherResponse.swift,
+				Presenter/MainViewPresenter.swift,
+				View/MainViewController.swift,
 			);
 			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;
 		};

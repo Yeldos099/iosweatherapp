@@ -22,7 +22,7 @@ enum NetworkError: LocalizedError {
         case .timeout:
             return "Превышено время ожидания"
         case .clientError(let code):
-            return "Ошабка клиента: \(code)"
+            return "Ошибка клиента: \(code)"
         case .serverError(let code):
             return "Ошибка сервера: \(code)"
         case .decodingError(let error):

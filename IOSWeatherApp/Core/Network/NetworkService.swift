@@ -33,6 +33,7 @@ final class NetworkService: NetworkServiceProtocol {
                 case 500...599:
                     throw NetworkError.serverError(statusCode: httpResponse.statusCode)
                 default: break
+                    
                 }
             }
             
