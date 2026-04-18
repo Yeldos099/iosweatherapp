@@ -20,4 +20,10 @@ final class DIContainer {
         LocationManager()
     }()
     
+    func makeMainPresenter(view: MainViewProtocol) -> MainViewPresenter {
+        MainViewPresenter(view: view,
+                          networkService: networkService,
+                          locationManager: locationManager)
+    }
+    
 }

@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 protocol MainViewPresenterProtocol: AnyObject {
-    
+    func viewDidLoad()
 }
 
 
