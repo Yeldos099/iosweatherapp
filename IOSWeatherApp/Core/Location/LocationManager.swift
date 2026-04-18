@@ -24,17 +24,24 @@ final class LocationManager: NSObject, LocationManagerProtocol {
     }
     
     func requestLocation() async throws -> CLLocationCoordinate2D {
-        return try await withCheckedThrowingContinuation { contination in
-            self.continuation = contination
+        switch manager.authorizationStatus {
+        case .denied, .restricted:
+            throw LocationError.denied
+        case .notDetermined, .authorizedWhenInUse, .authorizedAlways:
+            break
+            @unknown default:
+            throw LocationError.unknown
+        }
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            self.continuation = continuation
             switch manager.authorizationStatus {
-            case .notDetermined:
+                case .notDetermined:
                 manager.requestWhenInUseAuthorization()
             case .authorizedWhenInUse, .authorizedAlways:
                 manager.requestLocation()
-            case .denied, .restricted:
-                contination.resume(throwing: LocationError.denied)
-                @unknown default:
-                contination.resume(throwing: LocationError.unknown)
+                default :
+                break
             }
         }
     }
