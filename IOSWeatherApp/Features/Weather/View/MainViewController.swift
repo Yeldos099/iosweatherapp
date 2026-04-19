@@ -12,6 +12,13 @@ protocol MainViewProtocol: AnyObject {
    func showLoading()
     func hideLoading()
     func displayWeather(viewModel: WeatherViewModel)
+    func showError(message: String)
+}
+
+enum MainViewState {
+    case loading
+    case loaded
+    case error(String)
 }
 
 final class MainViewController: UIViewController {
@@ -25,11 +32,6 @@ final class MainViewController: UIViewController {
         return $0
     }(UIImageView())
     
-    lazy var gradientLayer: CAGradientLayer = {
-        $0.startPoint = CGPoint(x: 0.5, y: 0)
-        $0.endPoint = CGPoint(x: 0.5, y: 1)
-        return $0
-    }(CAGradientLayer())
     
     lazy var scrollView: UIScrollView = {
         $0.showsVerticalScrollIndicator = false
@@ -69,6 +71,12 @@ final class MainViewController: UIViewController {
         return $0
     }(UILabel())
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        $0.style = .large
+        $0.color = .white
+        $0.hidesWhenStopped = true
+        return $0
+    }(UIActivityIndicatorView())
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -77,13 +85,15 @@ final class MainViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        gradientLayer.frame = view.bounds
+        let colors = GradientManager.gradientColors(for: GradientManager.timeOfDay())
+        GradientManager.applyGradient(to: backgroundImageView, colors: colors)
     }
     
     private func setupUI() {
         setupBackground()
         setupScrollView()
         setupTopSection()
+        setupActivityIndicator()
     }
     
     private func setupBackground(){
@@ -92,10 +102,10 @@ final class MainViewController: UIViewController {
                 $0.edges.equalToSuperview()
         }
         
-        gradientLayer.colors = GradientManager.gradientColors(for: GradientManager.timeOfDay()).map{ $0.cgColor }
-        backgroundImageView.layer.addSublayer(gradientLayer)
-        
         backgroundImageView.image = GradientManager.backGroundImage(for: GradientManager.timeOfDay())
+        
+        let colors = GradientManager.gradientColors(for: GradientManager.timeOfDay())
+        GradientManager.applyGradient(to: backgroundImageView, colors: colors)
     }
     
     private func setupScrollView() {
@@ -113,13 +123,35 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func setupActivityIndicator() {
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+    
+    
+    private func updateState(_ state: MainViewState) {
+        switch state {
+        case .loading:
+            activityIndicator.startAnimating()
+            scrollView.isHidden = true
+        case .loaded:
+            activityIndicator.stopAnimating()
+            scrollView.isHidden = false
+        case .error(let message):
+            activityIndicator.stopAnimating()
+            scrollView.isHidden = true
+            print(message)
+        }
+    }
     private func setupTopSection() {
         [cityLabel, temperatureLabel, descriptionLabel, minMaxLabel].forEach {
             contentView.addSubview($0)
         }
         
         cityLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(80)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
             $0.centerX.equalToSuperview()
         }
         
@@ -142,21 +174,23 @@ final class MainViewController: UIViewController {
 
 
 extension MainViewController: MainViewProtocol {
+    
+    func showLoading() {
+        updateState(.loading)
+    }
+    
+    func hideLoading() {
+        updateState(.loaded)
+    }
+    
+    func showError(message: String) {
+        updateState(.error(message))
+    }
+    
     func displayWeather(viewModel: WeatherViewModel) {
         cityLabel.text = viewModel.cityName
         temperatureLabel.text = viewModel.temperature
         descriptionLabel.text = viewModel.description
-        minMaxLabel.text = "\(viewModel.tempMax) \(viewModel.tempMin)"
+        minMaxLabel.text = "Макс: \(viewModel.tempMax) Мин: \(viewModel.tempMin)"
     }
-    
-    
-    func showLoading() {
-        print("Загрузка")
-    }
-    
-    func hideLoading() {
-        print("Загрузка завершена")
-    }
-    
-    
 }

@@ -28,7 +28,7 @@ final class GradientManager {
     
     static func backGroundImage(for timeOfDay: TimeOfDay) -> UIImage? {
         switch timeOfDay {
-        case .morning: return UIImage(named: "bgDay")
+        case .morning: return UIImage(named: "bgMorning")
         case .day: return UIImage(named: "bgDay")
         case .evening: return UIImage(named: "bgEvening")
         case .night: return UIImage(named: "bgNight")
@@ -50,5 +50,17 @@ final class GradientManager {
             return [UIColor.black.withAlphaComponent(0.3),
                     UIColor.black.withAlphaComponent(0.7)]
         }
+    }
+    
+    static func applyGradient(to view: UIView, colors: [UIColor]) {
+        view.layer.sublayers?
+            .filter { $0 is CAGradientLayer }
+            .forEach { $0.removeFromSuperlayer() }
+        let gradient = CAGradientLayer()
+        gradient.frame = view.bounds
+        gradient.colors = colors.map { $0.cgColor }
+        gradient.startPoint = .init(x: 0.5, y: 0)
+        gradient.endPoint = .init(x: 0.5, y: 1)
+        view.layer.insertSublayer(gradient, at: 0)
     }
 }

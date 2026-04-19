@@ -42,8 +42,8 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             await fetchWeather(coordinate: coordinate)
         } catch {
             await MainActor.run {
-                view?.hideLoading()
-                print("Ошибка геолокации \(error.localizedDescription)")
+                view?.showError(message: error.localizedDescription)
+                
             }
         }
     }
@@ -61,7 +61,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             }
         } catch {
             await MainActor.run {
-                view?.hideLoading()
+                view?.showError(message: error.localizedDescription)
             }
         }
     }
