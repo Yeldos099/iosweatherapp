@@ -11,12 +11,13 @@ import SnapKit
 protocol MainViewProtocol: AnyObject {
    func showLoading()
     func hideLoading()
+    func displayWeather(viewModel: WeatherViewModel)
 }
 
 final class MainViewController: UIViewController {
     
     
-    var presenter: MainViewPresenter!
+    var presenter: MainViewPresenterProtocol!
     
     lazy var backgroundImageView: UIImageView = {
         $0.contentMode = .scaleAspectFill
@@ -141,6 +142,13 @@ final class MainViewController: UIViewController {
 
 
 extension MainViewController: MainViewProtocol {
+    func displayWeather(viewModel: WeatherViewModel) {
+        cityLabel.text = viewModel.cityName
+        temperatureLabel.text = viewModel.temperature
+        descriptionLabel.text = viewModel.description
+        minMaxLabel.text = "\(viewModel.tempMax) \(viewModel.tempMin)"
+    }
+    
     
     func showLoading() {
         print("Загрузка")

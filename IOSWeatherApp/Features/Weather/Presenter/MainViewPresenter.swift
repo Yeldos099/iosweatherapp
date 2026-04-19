@@ -53,14 +53,11 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         do {
             guard let url = makeWeatherURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
             let weather: WeatherResponse = try await networkService.request(url: url)
+            let viewmodel = WeatherMapper.map(from: weather)
             
             await MainActor.run {
                 view?.hideLoading()
-                print(weather.name)
-                print(weather.main.temp)
-                print(weather.main.feelsLike)
-                print(weather.main.humidity)
-                print(weather.weather.first?.description ?? "")
+                view?.displayWeather(viewModel: viewmodel)
             }
         } catch {
             await MainActor.run {
