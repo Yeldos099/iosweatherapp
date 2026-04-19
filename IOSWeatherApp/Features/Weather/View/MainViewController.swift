@@ -86,14 +86,19 @@ final class MainViewController: UIViewController {
     }(UIRefreshControl())
     
     
+    private var isGradientApplied: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         presenter.viewDidLoad()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated, )
+        guard !isGradientApplied else { return }
+        isGradientApplied = true
+        print(backgroundImageView.bounds)
         let colors = GradientManager.gradientColors(for: GradientManager.timeOfDay())
         GradientManager.applyGradient(to: backgroundImageView, colors: colors)
     }
@@ -113,8 +118,6 @@ final class MainViewController: UIViewController {
         
         backgroundImageView.image = GradientManager.backGroundImage(for: GradientManager.timeOfDay())
         
-        let colors = GradientManager.gradientColors(for: GradientManager.timeOfDay())
-        GradientManager.applyGradient(to: backgroundImageView, colors: colors)
     }
     
     private func setupScrollView() {
