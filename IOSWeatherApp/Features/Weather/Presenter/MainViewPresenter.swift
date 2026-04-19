@@ -10,10 +10,18 @@ import CoreLocation
 
 protocol MainViewPresenterProtocol: AnyObject {
     func viewDidLoad()
+    func refresh()
 }
 
 
 final class MainViewPresenter: MainViewPresenterProtocol {
+    
+    func refresh() {
+        Task {
+            await fetchLocation()
+        }
+    }
+    
    
     private weak var view: MainViewProtocol?
     private let networkService: NetworkServiceProtocol
@@ -57,6 +65,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             
             await MainActor.run {
                 view?.hideLoading()
+                view?.stopRefreshing()
                 view?.displayWeather(viewModel: viewmodel)
             }
         } catch {

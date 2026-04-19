@@ -13,6 +13,7 @@ protocol MainViewProtocol: AnyObject {
     func hideLoading()
     func displayWeather(viewModel: WeatherViewModel)
     func showError(message: String)
+    func stopRefreshing()
 }
 
 enum MainViewState {
@@ -77,6 +78,14 @@ final class MainViewController: UIViewController {
         $0.hidesWhenStopped = true
         return $0
     }(UIActivityIndicatorView())
+    
+    
+    lazy var refreshControl: UIRefreshControl = {
+        $0.tintColor = .white
+        return $0
+    }(UIRefreshControl())
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -111,6 +120,8 @@ final class MainViewController: UIViewController {
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        scrollView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -131,6 +142,7 @@ final class MainViewController: UIViewController {
     }
     
     
+    @MainActor
     private func updateState(_ state: MainViewState) {
         switch state {
         case .loading:
@@ -170,10 +182,21 @@ final class MainViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
     }
+    
+   @objc private func handleRefresh(){
+       presenter.refresh()
+    }
 }
 
 
 extension MainViewController: MainViewProtocol {
+    
+    func stopRefreshing() {
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
     
     func showLoading() {
         updateState(.loading)
