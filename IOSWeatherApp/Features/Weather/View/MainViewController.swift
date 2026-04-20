@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 
 protocol MainViewProtocol: AnyObject {
-   func showLoading()
-    func hideLoading()
-    func displayWeather(viewModel: WeatherViewModel)
-    func showError(message: String)
-    func stopRefreshing()
-    func displayForecast(viewModel: ForecastViewModel)
+    @MainActor func showLoading()
+    @MainActor func hideLoading()
+    @MainActor func displayWeather(viewModel: WeatherViewModel)
+    @MainActor func showError(message: String)
+    @MainActor func stopRefreshing()
+    @MainActor func displayForecast(viewModel: ForecastViewModel)
 }
 
 enum MainViewState {
@@ -86,6 +86,8 @@ final class MainViewController: UIViewController {
         return $0
     }(UIRefreshControl())
     
+    lazy var hourlyForecastView = HourlyForecastView()
+    
     
     private var isGradientApplied: Bool = false
     
@@ -108,6 +110,7 @@ final class MainViewController: UIViewController {
         setupBackground()
         setupScrollView()
         setupTopSection()
+        setupHourlySection()
         setupActivityIndicator()
     }
     
@@ -145,6 +148,15 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func setupHourlySection() {
+        contentView.addSubview(hourlyForecastView)
+        
+        hourlyForecastView.snp.makeConstraints {
+            $0.top.equalTo(minMaxLabel.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(100)
+        }
+    }
     
     @MainActor
     private func updateState(_ state: MainViewState) {
@@ -196,7 +208,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: MainViewProtocol {
     
     func displayForecast(viewModel: ForecastViewModel) {
-        //
+        print(viewModel.hourly.count)
+        hourlyForecastView.configure(with: viewModel.hourly)
     }
     
     

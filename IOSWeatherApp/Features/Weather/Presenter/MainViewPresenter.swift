@@ -42,7 +42,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
     }
     
     private func fetchLocation() async {
-        view?.showLoading()
+        await view?.showLoading()
         
         do {
             let coordinate = try await locationManager.requestLocation()
@@ -108,17 +108,9 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             .init(name: "lat", value: "\(lat)"),
             .init(name: "lon", value: "\(lon)"),
             .init(name: "appid", value: apiKey),
+            .init(name: "units", value: "metric"),
             .init(name: "lang", value: "ru")
             ]
         return components.url
-    }
-    
-    private func fetchForecast(coordinate: CLLocationCoordinate2D) async {
-        do {
-            guard let url = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
-            let forecast: ForecastResponse = try await networkService.request(url: url)
-        } catch {
-            print(error.localizedDescription)
-        }
     }
 }
