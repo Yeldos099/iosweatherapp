@@ -53,6 +53,8 @@
 				Model/WeatherResponse.swift,
 				Model/WeatherViewModel.swift,
 				Presenter/MainViewPresenter.swift,
+				View/DailyForecastCell.swift,
+				View/DailyForecastView.swift,
 				View/HourlyForecastCell.swift,
 				View/HourlyForecastView.swift,
 				View/MainViewController.swift,

@@ -87,7 +87,7 @@ final class MainViewController: UIViewController {
     }(UIRefreshControl())
     
     lazy var hourlyForecastView = HourlyForecastView()
-    
+    lazy var dailyForecastView = DailyForecastView()
     
     private var isGradientApplied: Bool = false
     
@@ -112,6 +112,7 @@ final class MainViewController: UIViewController {
         setupTopSection()
         setupHourlySection()
         setupActivityIndicator()
+        setupDailySection()
     }
     
     private func setupBackground(){
@@ -199,6 +200,17 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func setupDailySection() {
+        contentView.addSubview(dailyForecastView)
+        
+        dailyForecastView.snp.makeConstraints {
+            $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(44 * 5 + 44)
+            $0.bottom.equalToSuperview().inset(16)
+        }
+    }
+    
    @objc private func handleRefresh(){
        presenter.refresh()
     }
@@ -208,8 +220,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: MainViewProtocol {
     
     func displayForecast(viewModel: ForecastViewModel) {
-        print(viewModel.hourly.count)
         hourlyForecastView.configure(with: viewModel.hourly)
+        dailyForecastView.configure(with: viewModel.daily)
     }
     
     
