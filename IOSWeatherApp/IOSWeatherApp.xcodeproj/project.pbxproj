@@ -46,7 +46,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Builder/Builder.swift,
+				Model/ForecastMapper.swift,
 				Model/ForecastResponse.swift,
+				Model/ForecastViewModel.swift,
 				Model/WeatherMapper.swift,
 				Model/WeatherResponse.swift,
 				Model/WeatherViewModel.swift,
