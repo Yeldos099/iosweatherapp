@@ -12,6 +12,17 @@ final class HourlyForecastView: UIView {
     
     private var items: [HourForecast] = []
     
+    lazy var windLabel: UILabel = {
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = .textPrimary
+        $0.numberOfLines = 0
+        return $0
+    }(UILabel())
+    
+    lazy var separator: UIView = {
+        $0.backgroundColor = UIColor(white: 1.0, alpha: 0.3)
+        return $0
+    }(UIView())
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -38,9 +49,25 @@ final class HourlyForecastView: UIView {
         backgroundColor = UIColor(white: 1.0, alpha: 0.15)
         layer.cornerRadius = 16
         
+        addSubview(windLabel)
+        addSubview(separator)
         addSubview(collectionView)
+        
+        windLabel.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(12)
+            $0.leading.trailing.equalToSuperview().inset(12)
+        }
+        
+        separator.snp.makeConstraints {
+            $0.top.equalTo(windLabel.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview().inset(12)
+            $0.height.equalTo(0.5)
+        }
+        
         collectionView.snp.makeConstraints{
-            $0.edges.equalToSuperview().inset(8)
+            $0.top.equalTo(separator.snp.bottom).offset(4)
+            $0.leading.trailing.bottom.equalToSuperview().inset(8)
+            $0.height.equalTo(80)
         }
     }
     
@@ -49,6 +76,10 @@ final class HourlyForecastView: UIView {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+    
+    func configureWind(with text: String) {
+        windLabel.text = text
     }
 }
 

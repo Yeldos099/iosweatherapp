@@ -30,6 +30,13 @@ final class DailyForecastCell: UITableViewCell {
         return $0
     }(UILabel())
     
+    lazy var iconImageView: UIImageView = {
+        $0.contentMode = .scaleAspectFit
+        $0.tintColor = .white
+        return $0
+    }(UIImageView())
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -43,7 +50,7 @@ final class DailyForecastCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        [dayLabel, minTempLabel, maxTempLabel].forEach {
+        [dayLabel, minTempLabel, maxTempLabel, iconImageView].forEach {
             contentView.addSubview($0)
         }
         dayLabel.snp.makeConstraints {
@@ -51,6 +58,10 @@ final class DailyForecastCell: UITableViewCell {
             $0.centerY.equalToSuperview()
         }
         
+        iconImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(24)
+        }
         maxTempLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
@@ -66,5 +77,6 @@ final class DailyForecastCell: UITableViewCell {
         dayLabel.text = model.dayName
         minTempLabel.text = model.tempMin
         maxTempLabel.text = model.tempMax
+        iconImageView.image = WeatherIconManager.icon(for: model.weatherID)
     }
 }

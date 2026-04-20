@@ -64,6 +64,7 @@ final class MainViewController: UIViewController {
     lazy var descriptionLabel: UILabel = {
         $0.appTextStyle(.weatherDescription)
         $0.textAlignment = .center
+        $0.textColor = .textSecondary
         return $0
     }(UILabel())
     
@@ -111,8 +112,8 @@ final class MainViewController: UIViewController {
         setupScrollView()
         setupTopSection()
         setupHourlySection()
-        setupActivityIndicator()
         setupDailySection()
+        setupActivityIndicator()
     }
     
     private func setupBackground(){
@@ -128,6 +129,7 @@ final class MainViewController: UIViewController {
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         
@@ -142,6 +144,54 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func setupTopSection() {
+        [cityLabel, temperatureLabel, descriptionLabel, minMaxLabel].forEach {
+            contentView.addSubview($0)
+        }
+        
+        cityLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(30)
+            $0.centerX.equalToSuperview()
+        }
+        
+        temperatureLabel.snp.makeConstraints {
+            $0.top.equalTo(cityLabel.snp.bottom).offset(-15)
+            $0.centerX.equalToSuperview()
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(temperatureLabel.snp.bottom).offset(8)
+            $0.centerX.equalToSuperview()
+        }
+        
+        minMaxLabel.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    
+    private func setupHourlySection() {
+        contentView.addSubview(hourlyForecastView)
+        
+        hourlyForecastView.snp.makeConstraints {
+            $0.top.equalTo(minMaxLabel.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(160)
+        }
+    }
+    
+    private func setupDailySection() {
+        contentView.addSubview(dailyForecastView)
+        
+        dailyForecastView.snp.makeConstraints {
+            $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(44 * 5 + 44)
+            $0.bottom.equalToSuperview().inset(16)
+        }
+    }
+    
     private func setupActivityIndicator() {
         view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints {
@@ -149,15 +199,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func setupHourlySection() {
-        contentView.addSubview(hourlyForecastView)
-        
-        hourlyForecastView.snp.makeConstraints {
-            $0.top.equalTo(minMaxLabel.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(100)
-        }
-    }
+   
     
     @MainActor
     private func updateState(_ state: MainViewState) {
@@ -174,42 +216,11 @@ final class MainViewController: UIViewController {
             print(message)
         }
     }
-    private func setupTopSection() {
-        [cityLabel, temperatureLabel, descriptionLabel, minMaxLabel].forEach {
-            contentView.addSubview($0)
-        }
-        
-        cityLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(60)
-            $0.centerX.equalToSuperview()
-        }
-        
-        temperatureLabel.snp.makeConstraints {
-            $0.top.equalTo(cityLabel.snp.bottom).offset(8)
-            $0.centerX.equalToSuperview()
-        }
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(temperatureLabel.snp.bottom).offset(8)
-            $0.centerX.equalToSuperview()
-        }
-        
-        minMaxLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
-            $0.centerX.equalToSuperview()
-        }
-    }
+   
     
-    private func setupDailySection() {
-        contentView.addSubview(dailyForecastView)
-        
-        dailyForecastView.snp.makeConstraints {
-            $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(44 * 5 + 44)
-            $0.bottom.equalToSuperview().inset(16)
-        }
-    }
+    
+    
+   
     
    @objc private func handleRefresh(){
        presenter.refresh()
@@ -249,5 +260,6 @@ extension MainViewController: MainViewProtocol {
         temperatureLabel.text = viewModel.temperature
         descriptionLabel.text = viewModel.description
         minMaxLabel.text = "Макс: \(viewModel.tempMax) Мин: \(viewModel.tempMin)"
+        hourlyForecastView.configureWind(with: viewModel.windDescription)
     }
 }

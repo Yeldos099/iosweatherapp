@@ -24,6 +24,13 @@ final class HourlyForecastCell: UICollectionViewCell {
         return $0
     }(UILabel())
     
+    lazy var iconImageView: UIImageView = {
+        $0.contentMode = .scaleAspectFit
+        $0.tintColor = .white
+        return $0
+    }(UIImageView())
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -34,13 +41,18 @@ final class HourlyForecastCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        [timeLabel, tempLabel].forEach {
+        [timeLabel, tempLabel, iconImageView].forEach {
             contentView.addSubview($0)
         }
         
         timeLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.centerX.equalToSuperview()
+        }
+        
+        iconImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(24)
         }
         
         tempLabel.snp.makeConstraints {
@@ -52,5 +64,6 @@ final class HourlyForecastCell: UICollectionViewCell {
     func configure(with model: HourForecast) {
         timeLabel.text = model.time
         tempLabel.text = model.temp
+        iconImageView.image = WeatherIconManager.icon(for: model.weatherId)
     }
 }

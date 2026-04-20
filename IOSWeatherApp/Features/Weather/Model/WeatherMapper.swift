@@ -18,6 +18,6 @@ final class WeatherMapper {
                                 tempMax: "\(Int(response.main.tempMax))°",
                                 humidity: "\(response.main.humidity)%",
                                 windSpeed: "\(Int(response.wind.speed)) м/с",
-                                weatherId: response.weather.first?.id ?? 800)
+                                weatherId: response.weather.first?.id ?? 800, windDescription: "Порывы ветра до \(Int(response.wind.speed * 3.6)) км/ч \(response.weather.first?.description ?? "")")
     }
 }
