@@ -16,8 +16,8 @@ final class ForecastMapper {
     }
     
     private static func mapHourly(from items: [ForecastItem]) -> [HourForecast] {
-        return items.prefix(8).map { item in
-            HourForecast(time: formatHour(from: item.dt),
+        return items.prefix(8).enumerated().map {index,item in
+            HourForecast(time: index == 0 ? "Сейчас" : formatHour(from: item.dt),
                          temp: "\(Int(item.main.temp))°",
                          weatherId: item.weather.first?.id ?? 800)
         }
