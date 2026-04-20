@@ -59,9 +59,16 @@ final class MainViewPresenter: MainViewPresenterProtocol {
     func fetchWeather(coordinate: CLLocationCoordinate2D) async {
         
         do {
-            guard let url = makeWeatherURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
-            let weather: WeatherResponse = try await networkService.request(url: url)
-            let viewmodel = WeatherMapper.map(from: weather)
+            guard let weatherURL = makeWeatherURL(lat: coordinate.latitude, lon: coordinate.longitude),
+                  let forecastURL = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
+            
+            async let weather: WeatherResponse = networkService.request(url: weatherURL)
+            async let forecast: ForecastResponse = networkService.request(url: forecastURL)
+            
+            let (weatherResult, forecastResult) = try await (weather, forecast)
+            let viewmodel = WeatherMapper.map(from: weatherResult)
+            
+            print("прогноз \(forecastResult.list.count)")
             
             await MainActor.run {
                 view?.hideLoading()
@@ -89,5 +96,28 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         ]
         return components.url
             
+    }
+    
+    private func makeForecastURL(lat: Double, lon: Double) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.openweathermap.org"
+        components.path = "/data/2.5/forecast"
+        components.queryItems = [
+            .init(name: "lat", value: "\(lat)"),
+            .init(name: "lon", value: "\(lon)"),
+            .init(name: "appid", value: apiKey),
+            .init(name: "lang", value: "ru")
+            ]
+        return components.url
+    }
+    
+    private func fetchForecast(coordinate: CLLocationCoordinate2D) async {
+        do {
+            guard let url = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
+            let forecast: ForecastResponse = try await networkService.request(url: url)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
