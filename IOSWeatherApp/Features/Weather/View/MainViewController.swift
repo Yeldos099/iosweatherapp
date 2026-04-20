@@ -14,6 +14,7 @@ protocol MainViewProtocol: AnyObject {
     func displayWeather(viewModel: WeatherViewModel)
     func showError(message: String)
     func stopRefreshing()
+    func displayForecast(viewModel: ForecastViewModel)
 }
 
 enum MainViewState {
@@ -193,6 +194,11 @@ final class MainViewController: UIViewController {
 
 
 extension MainViewController: MainViewProtocol {
+    
+    func displayForecast(viewModel: ForecastViewModel) {
+        //
+    }
+    
     
     func stopRefreshing() {
         DispatchQueue.main.async {

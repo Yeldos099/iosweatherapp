@@ -66,14 +66,15 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             async let forecast: ForecastResponse = networkService.request(url: forecastURL)
             
             let (weatherResult, forecastResult) = try await (weather, forecast)
-            let viewmodel = WeatherMapper.map(from: weatherResult)
-            
+            let weatherViewmodel = WeatherMapper.map(from: weatherResult)
+            let ForecastViewModel = ForecastMapper.map(from: forecastResult)
             print("прогноз \(forecastResult.list.count)")
             
             await MainActor.run {
                 view?.hideLoading()
                 view?.stopRefreshing()
-                view?.displayWeather(viewModel: viewmodel)
+                view?.displayWeather(viewModel: weatherViewmodel)
+                view?.displayForecast(viewModel: ForecastViewModel)
             }
         } catch {
             await MainActor.run {
