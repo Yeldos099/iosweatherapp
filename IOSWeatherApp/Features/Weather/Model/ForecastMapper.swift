@@ -36,7 +36,7 @@ final class ForecastMapper {
             let maxTemp = dayItems.map{ $0.main.tempMax }.max() ?? 0
             let weatherId = dayItems.first?.weather.first?.id ?? 800
             
-            return DayForecast(dayName: formatDay(from: day), tempMin: "\(Int(minTemp))", tempMax: "\(Int(maxTemp))", weatherID: weatherId)
+            return DayForecast(dayName: formatDay(from: day), tempMin: "\(Int(minTemp))°", tempMax: "\(Int(maxTemp))°", weatherID: weatherId)
         }
     }
     private static func formatHour(from timestamp: TimeInterval) -> String {
