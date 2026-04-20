@@ -177,7 +177,7 @@ final class MainViewController: UIViewController {
         hourlyForecastView.snp.makeConstraints {
             $0.top.equalTo(minMaxLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(160)
+            $0.height.equalTo(170)
         }
     }
     
@@ -232,7 +232,7 @@ extension MainViewController: MainViewProtocol {
     
     func displayForecast(viewModel: ForecastViewModel) {
         hourlyForecastView.configure(with: viewModel.hourly)
-        dailyForecastView.configure(with: viewModel.daily)
+        dailyForecastView.configure(with: viewModel.daily, globalMin: viewModel.globalMinTemp, globalMax: viewModel.globalMaxTemp)
     }
     
     

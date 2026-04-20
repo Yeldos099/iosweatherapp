@@ -12,7 +12,12 @@ final class ForecastMapper {
     static func map(from response: ForecastResponse) -> ForecastViewModel {
         let hourly = mapHourly(from: response.list)
         let daily = mapDaily(from: response.list)
-        return ForecastViewModel(daily: daily, hourly: hourly)
+        
+        let globalMin = response.list.map { $0.main.tempMin }.min() ?? 0
+        let globalMax = response.list.map { $0.main.tempMax }.max() ?? 0
+        
+        
+        return ForecastViewModel(daily: daily, hourly: hourly,globalMinTemp: globalMin, globalMaxTemp: globalMax)
     }
     
     private static func mapHourly(from items: [ForecastItem]) -> [HourForecast] {
@@ -30,13 +35,13 @@ final class ForecastMapper {
             grouped[day, default: []].append(item)
         }
         
-        return grouped.keys.sorted().prefix(5).compactMap { day in
+        return grouped.keys.sorted().prefix(5).compactMap { day -> DayForecast? in
             guard let dayItems = grouped[day] else { return nil }
             let minTemp = dayItems.map{ $0.main.tempMin }.min() ?? 0
             let maxTemp = dayItems.map{ $0.main.tempMax }.max() ?? 0
             let weatherId = dayItems.first?.weather.first?.id ?? 800
             
-            return DayForecast(dayName: formatDay(from: day), tempMin: "\(Int(minTemp))°", tempMax: "\(Int(maxTemp))°", weatherID: weatherId)
+            return DayForecast(dayName: formatDay(from: day), tempMin: "\(Int(minTemp))°", tempMax: "\(Int(maxTemp))°", tempMinValue: minTemp, tempMaxValue: maxTemp, weatherId: weatherId)
         }
     }
     private static func formatHour(from timestamp: TimeInterval) -> String {

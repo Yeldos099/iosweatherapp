@@ -26,8 +26,9 @@ final class HourlyForecastView: UIView {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 60, height: 80)
-        layout.minimumLineSpacing = 8
+        layout.itemSize = CGSize(width: 60, height: 90)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
         cv.showsHorizontalScrollIndicator = false
@@ -67,7 +68,7 @@ final class HourlyForecastView: UIView {
         collectionView.snp.makeConstraints{
             $0.top.equalTo(separator.snp.bottom).offset(4)
             $0.leading.trailing.bottom.equalToSuperview().inset(8)
-            $0.height.equalTo(80)
+            $0.height.equalTo(90)
         }
     }
     
@@ -85,12 +86,12 @@ final class HourlyForecastView: UIView {
 
 
 extension HourlyForecastView: UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(items.count)
         return items.count
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCell.identifier, for: indexPath) as! HourlyForecastCell
         cell.configure(with: items[indexPath.item])
         return cell

@@ -9,7 +9,11 @@ import UIKit
 import SnapKit
 
 final class DailyForecastView: UIView {
+    
     private var items: [DayForecast] = []
+    
+    private var globalMin: Double = 0
+    private var globalMax: Double = 0
     
     lazy var titleLabel: UILabel = {
         $0.appTextStyle(.sectionTitle)
@@ -53,8 +57,10 @@ final class DailyForecastView: UIView {
         }
     }
     
-    func configure(with items: [DayForecast]) {
+    func configure(with items: [DayForecast], globalMin: Double, globalMax: Double) {
         self.items = items
+        self.globalMin = globalMin
+        self.globalMax = globalMax
         tableView.reloadData()
     }
 }
@@ -67,7 +73,7 @@ extension DailyForecastView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DailyForecastCell.identifier, for: indexPath) as! DailyForecastCell
-        cell.configure(with: items[indexPath.row])
+        cell.configure(with: items[indexPath.row], globalMin: globalMin, globalMax: globalMax)
         return cell
     }
     

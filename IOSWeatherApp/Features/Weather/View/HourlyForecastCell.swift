@@ -51,12 +51,14 @@ final class HourlyForecastCell: UICollectionViewCell {
         }
         
         iconImageView.snp.makeConstraints {
+            $0.top.equalTo(timeLabel.snp.bottom).offset(8)
             $0.center.equalToSuperview()
             $0.width.height.equalTo(24)
         }
         
         tempLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(8)
+            $0.top.equalTo(iconImageView.snp.bottom).offset(8)
+            $0.bottom.equalToSuperview().inset(12)
             $0.centerX.equalToSuperview()
         }
     }

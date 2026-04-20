@@ -36,6 +36,10 @@ final class DailyForecastCell: UITableViewCell {
         return $0
     }(UIImageView())
     
+    lazy var temperatureRangeView: TemperatureRangeView = {
+        return $0
+    }(TemperatureRangeView())
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,33 +54,48 @@ final class DailyForecastCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        [dayLabel, minTempLabel, maxTempLabel, iconImageView].forEach {
+        [dayLabel, minTempLabel, maxTempLabel, iconImageView, temperatureRangeView].forEach {
             contentView.addSubview($0)
         }
+        
         dayLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
+            $0.width.equalTo(40)
         }
         
         iconImageView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.leading.equalTo(dayLabel.snp.trailing).offset(8)
+            $0.centerY.equalToSuperview()
             $0.width.height.equalTo(24)
         }
+        
+        
         maxTempLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
+            $0.width.equalTo(36)
         }
         
         minTempLabel.snp.makeConstraints {
-            $0.trailing.equalTo(maxTempLabel.snp.leading).offset(-16)
+            $0.trailing.equalTo(maxTempLabel.snp.leading).offset(-8)
             $0.centerY.equalToSuperview()
+            $0.width.equalTo(36)
+        }
+        
+        temperatureRangeView.snp.makeConstraints {
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(minTempLabel.snp.leading).offset(-8)
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(4)
         }
     }
     
-    func configure(with model: DayForecast) {
+    func configure(with model: DayForecast, globalMin: Double, globalMax: Double) {
         dayLabel.text = model.dayName
         minTempLabel.text = model.tempMin
         maxTempLabel.text = model.tempMax
-        iconImageView.image = WeatherIconManager.icon(for: model.weatherID)
+        iconImageView.image = WeatherIconManager.icon(for: model.weatherId)
+        temperatureRangeView.configure(minTemp: model.tempMinValue, maxTemp: model.tempMaxValue, globalMin: globalMin, globalMax: globalMax)
     }
 }

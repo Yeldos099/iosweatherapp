@@ -11,13 +11,17 @@ import Foundation
 struct ForecastViewModel {
     let daily: [DayForecast]
     let hourly: [HourForecast]
+    let globalMinTemp: Double
+    let globalMaxTemp: Double
 }
 
 struct DayForecast {
     let dayName: String
     let tempMin: String
     let tempMax: String
-    let weatherID: Int
+    let tempMinValue: Double
+    let tempMaxValue: Double
+    let weatherId: Int
 }
 
 struct HourForecast {
