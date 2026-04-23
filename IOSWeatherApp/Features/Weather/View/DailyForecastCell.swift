@@ -61,31 +61,30 @@ final class DailyForecastCell: UITableViewCell {
         dayLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(40)
         }
         
         iconImageView.snp.makeConstraints {
-            $0.leading.equalTo(dayLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(dayLabel.snp.trailing).offset(20)
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(24)
         }
         
         
         maxTempLabel.snp.makeConstraints {
+            $0.leading.equalTo(temperatureRangeView.snp.trailing).offset(6)
             $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(36)
         }
         
         minTempLabel.snp.makeConstraints {
-            $0.trailing.equalTo(maxTempLabel.snp.leading).offset(-8)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(18)
             $0.centerY.equalToSuperview()
             $0.width.equalTo(36)
         }
         
         temperatureRangeView.snp.makeConstraints {
-            $0.leading.equalTo(iconImageView.snp.trailing).offset(8)
-            $0.trailing.equalTo(minTempLabel.snp.leading).offset(-8)
+            $0.leading.equalTo(minTempLabel.snp.trailing).offset(6)
+            $0.trailing.equalTo(maxTempLabel.snp.leading).offset(-6)
             $0.centerY.equalToSuperview()
             $0.height.equalTo(4)
         }

@@ -56,18 +56,18 @@ final class HourlyForecastView: UIView {
         
         windLabel.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
-            $0.leading.trailing.equalToSuperview().inset(12)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
         
         separator.snp.makeConstraints {
-            $0.top.equalTo(windLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(12)
+            $0.top.equalTo(windLabel.snp.bottom).offset(12)
+            $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(0.5)
         }
         
         collectionView.snp.makeConstraints{
-            $0.top.equalTo(separator.snp.bottom).offset(4)
-            $0.leading.trailing.bottom.equalToSuperview().inset(8)
+            $0.top.equalTo(separator.snp.bottom).offset(12)
+            $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(90)
         }
     }

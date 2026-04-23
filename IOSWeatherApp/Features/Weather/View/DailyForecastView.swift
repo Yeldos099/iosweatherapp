@@ -15,9 +15,17 @@ final class DailyForecastView: UIView {
     private var globalMin: Double = 0
     private var globalMax: Double = 0
     
+    lazy var calendarImageView: UIImageView = {
+        $0.image = .calendar
+        $0.tintColor = .systemGray
+        return $0
+    }(UIImageView())
+    
+    
     lazy var titleLabel: UILabel = {
         $0.appTextStyle(.sectionTitle)
         $0.text = "ПРОГНОЗ НА 5 ДНЕЙ"
+        $0.textColor = .systemGray
         return $0
     }(UILabel())
     
@@ -29,6 +37,7 @@ final class DailyForecastView: UIView {
         $0.register(DailyForecastCell.self, forCellReuseIdentifier: DailyForecastCell.identifier)
         return $0
     }(UITableView())
+    
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -43,12 +52,19 @@ final class DailyForecastView: UIView {
         backgroundColor = UIColor(white: 1, alpha: 0.15)
         layer.cornerRadius = 16
         
+        addSubview(calendarImageView)
         addSubview(titleLabel)
         addSubview(tableView)
         
-        titleLabel.snp.makeConstraints{
+        calendarImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)
             $0.leading.equalToSuperview().offset(16)
+            $0.width.height.equalTo(20)
+        }
+        
+        titleLabel.snp.makeConstraints{
+            $0.leading.equalTo(calendarImageView.snp.trailing).offset(4)
+            $0.centerY.equalTo(calendarImageView)
         }
         
         tableView.snp.makeConstraints{
