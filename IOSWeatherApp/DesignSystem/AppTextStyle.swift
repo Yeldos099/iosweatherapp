@@ -15,6 +15,7 @@ enum AppTextStyle {
     case sectionTitle
     case hourly
     case sectionDescription
+    case detailValue
     
     
     var font: UIFont {
@@ -25,7 +26,7 @@ enum AppTextStyle {
       case .sectionTitle: return .systemFont(ofSize: 14)
       case .hourly: return .systemFont(ofSize: 15, weight: .medium)
       case .sectionDescription: return .systemFont(ofSize: 18, weight: .medium)
-      
+      case .detailValue: return .systemFont(ofSize: 32, weight: .medium)
         }
     }
 }

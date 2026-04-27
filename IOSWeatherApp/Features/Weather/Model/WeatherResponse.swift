@@ -21,6 +21,7 @@ struct Main: Decodable {
     let tempMin: Double
     let tempMax: Double
     let humidity: Int
+    let pressure: Int
     
     enum CodingKeys: String, CodingKey {
         case temp
@@ -28,6 +29,7 @@ struct Main: Decodable {
         case tempMin = "temp_min"
         case tempMax = "temp_max"
         case humidity
+        case pressure
     }
 }
 
@@ -40,4 +42,5 @@ struct Weather: Decodable {
 
 struct Wind: Decodable {
     let speed: Double
+    let deg: Int
 }

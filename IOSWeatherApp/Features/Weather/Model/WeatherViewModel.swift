@@ -19,4 +19,10 @@ struct WeatherViewModel {
     let windSpeed: String
     let weatherId: Int
     let windDescription: String
+    let feelsLikeDescription: String
+    let windDirection: String
+    let pressure: String
+    let humidityDescription: String
+    let pressureDescription: String
+    let averageDescription: String
 }

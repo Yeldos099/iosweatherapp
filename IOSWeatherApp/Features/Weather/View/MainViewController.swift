@@ -99,6 +99,8 @@ final class MainViewController: UIViewController {
     lazy var hourlyForecastView = HourlyForecastView()
     lazy var dailyForecastView = DailyForecastView()
     
+    lazy var detailsView = DetailsView()
+    
     private var isGradientApplied: Bool = false
     
     override func viewDidLoad() {
@@ -125,6 +127,7 @@ final class MainViewController: UIViewController {
         setupHourlySection()
         setupDailySection()
         setupActivityIndicator()
+        setupDetailsSection()
     }
     
     private func setupBackground(){
@@ -151,7 +154,6 @@ final class MainViewController: UIViewController {
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualToSuperview()
         }
     }
     
@@ -161,7 +163,7 @@ final class MainViewController: UIViewController {
         }
         
         locationBtn.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(72)
+            $0.top.equalToSuperview().offset(110)
             $0.centerX.equalToSuperview()
         }
         
@@ -204,6 +206,15 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(264)
+        }
+    }
+    
+    private func setupDetailsSection() {
+        contentView.addSubview(detailsView)
+        
+        detailsView.snp.makeConstraints {
+            $0.top.equalTo(dailyForecastView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(16)
         }
     }
@@ -277,5 +288,6 @@ extension MainViewController: MainViewProtocol {
         descriptionLabel.text = viewModel.description
         minMaxLabel.text = "Макс: \(viewModel.tempMax) Мин: \(viewModel.tempMin)"
         hourlyForecastView.configureWind(with: viewModel.windDescription)
+        detailsView.configure(with: viewModel)
     }
 }
