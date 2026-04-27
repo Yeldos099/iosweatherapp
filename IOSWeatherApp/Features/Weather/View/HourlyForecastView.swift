@@ -46,9 +46,14 @@ final class HourlyForecastView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUI() {
-        backgroundColor = UIColor(white: 1.0, alpha: 0.15)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        GradientManager.applyGradient(to: self, colors: GradientManager.gradientColors(for: GradientManager.timeOfDay()))
         layer.cornerRadius = 16
+        clipsToBounds = true
+    }
+    
+    private func setupUI() {
         
         addSubview(windLabel)
         addSubview(separator)

@@ -46,7 +46,6 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         
         do {
             let coordinate = try await locationManager.requestLocation()
-            print("Координаты: \(coordinate.latitude), \(coordinate.longitude)")
             await fetchWeather(coordinate: coordinate)
         } catch {
             await MainActor.run {

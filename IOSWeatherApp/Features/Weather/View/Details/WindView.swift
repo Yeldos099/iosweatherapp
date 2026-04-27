@@ -65,9 +65,14 @@ final class WindView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        GradientManager.applyGradient(to: self, colors: GradientManager.gradientColors(for: GradientManager.timeOfDay()))
+        layer.cornerRadius = 16
+        clipsToBounds = true
+    }
+    
     private func setupUI() {
-        backgroundColor = UIColor(white: 1, alpha: 0.15)
-                layer.cornerRadius = 16
                 
                 [iconImageView, titleLabel, windLabel, windValueLabel,
                  gustLabel, gustValueLabel, directionLabel, directionValueLabel].forEach {
@@ -105,20 +110,16 @@ final class WindView: UIView {
                     $0.trailing.equalToSuperview().inset(16)
                 }
                 
-                directionLabel.snp.makeConstraints {
-                    $0.top.equalTo(gustLabel.snp.bottom).offset(8)
-                    $0.leading.equalToSuperview().offset(16)
-                    $0.bottom.equalToSuperview().inset(12)
-                }
-                
                 directionValueLabel.snp.makeConstraints {
                     $0.centerY.equalTo(directionLabel)
                     $0.trailing.equalToSuperview().inset(16)
                 }
         
-                snp.makeConstraints {
-                    $0.height.equalTo(120)
-        }
+                directionLabel.snp.makeConstraints {
+                    $0.top.equalTo(gustLabel.snp.bottom).offset(8)
+                    $0.leading.equalToSuperview().offset(16)
+                    $0.bottom.equalToSuperview().inset(12)
+                }
             }
             
             func configure(with viewModel: WeatherViewModel) {

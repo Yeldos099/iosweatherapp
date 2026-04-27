@@ -51,13 +51,18 @@ final class DetailBlockView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        GradientManager.applyGradient(to: self, colors: GradientManager.gradientColors(for: GradientManager.timeOfDay()))
+        layer.cornerRadius = 16
+        clipsToBounds = true
+    }
+    
     private func setupUI() {
         [iconImageView, titleLabel, valueLabel, descriptionLabel, subtitleLabel].forEach{
             addSubview($0)
             
         }
-        backgroundColor = UIColor(white: 1, alpha: 0.15)
-        layer.cornerRadius = 16
         
         iconImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)

@@ -35,7 +35,7 @@ final class ForecastMapper {
             grouped[day, default: []].append(item)
         }
         
-        return grouped.keys.sorted().prefix(5).compactMap { day -> DayForecast? in
+        return grouped.keys.sorted().prefix(8).compactMap { day -> DayForecast? in
             guard let dayItems = grouped[day] else { return nil }
             let minTemp = dayItems.map{ $0.main.tempMin }.min() ?? 0
             let maxTemp = dayItems.map{ $0.main.tempMax }.max() ?? 0

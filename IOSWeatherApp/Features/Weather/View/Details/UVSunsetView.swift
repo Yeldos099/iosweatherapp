@@ -35,7 +35,6 @@ final class UVSunsetView: UIView {
         addSubview(stackView)
         stackView.snp.makeConstraints{
             $0.edges.equalToSuperview()
-            $0.height.equalTo(160)
         }
     }
     

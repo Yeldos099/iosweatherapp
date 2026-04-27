@@ -38,17 +38,17 @@ final class GradientManager {
     static func gradientColors(for timeOfDay: TimeOfDay) -> [UIColor] {
         switch timeOfDay {
         case .morning:
-            return [UIColor.black.withAlphaComponent(0.3),
-                    UIColor.black.withAlphaComponent(0.7)]
+            return [AppColor.WeatherBackground.cloudy.withAlphaComponent(0.3),
+                    AppColor.WeatherBackground.cloudy.withAlphaComponent(0.7)]
             case .day:
-            return [UIColor.black.withAlphaComponent(0.2),
-                    UIColor.black.withAlphaComponent(0.6)]
+            return [AppColor.WeatherBackground.sunnuDeep.withAlphaComponent(0.2),
+                    AppColor.WeatherBackground.sunnuDeep.withAlphaComponent(0.6)]
         case .evening:
-            return [UIColor.black.withAlphaComponent(0.4),
-                    UIColor.black.withAlphaComponent(0.8)]
+            return [AppColor.WeatherBackground.rainyDark.withAlphaComponent(0.4),
+                    AppColor.WeatherBackground.rainyDark.withAlphaComponent(0.8)]
         case .night:
-            return [UIColor.black.withAlphaComponent(0.3),
-                    UIColor.black.withAlphaComponent(0.6)]
+            return [AppColor.WeatherBackground.night.withAlphaComponent(0.3),
+                    AppColor.WeatherBackground.night.withAlphaComponent(0.6)]
         }
     }
     
@@ -62,5 +62,6 @@ final class GradientManager {
         gradient.startPoint = .init(x: 0.5, y: 0)
         gradient.endPoint = .init(x: 0.5, y: 1)
         view.layer.insertSublayer(gradient, at: 0)
+//        view.layer.cornerRadius = 16
     }
 }

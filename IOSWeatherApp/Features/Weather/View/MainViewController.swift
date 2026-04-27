@@ -205,7 +205,7 @@ final class MainViewController: UIViewController {
         dailyForecastView.snp.makeConstraints {
             $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(264)
+            $0.height.equalTo(44 * 8 + 44)
         }
     }
     

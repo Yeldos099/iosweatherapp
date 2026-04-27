@@ -38,7 +38,6 @@ final class HumidityPressureView: UIView {
         
         stackView.snp.makeConstraints{
             $0.edges.equalToSuperview()
-            $0.height.equalTo(160)
         }
     }
     

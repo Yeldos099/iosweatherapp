@@ -34,10 +34,6 @@ final class AverageFeelsView: UIView {
     private func setupUI() {
         addSubview(stackView)
         
-        snp.makeConstraints {
-            $0.height.equalTo(160)
-        }
-        
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
