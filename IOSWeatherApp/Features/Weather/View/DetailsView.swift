@@ -20,6 +20,8 @@ final class DetailsView: UIView {
     
     lazy var averageFeelsView = AverageFeelsView()
     lazy var windView = WindView()
+    lazy var uvSunset = UVSunsetView()
+    lazy var humidityPressureView = HumidityPressureView()
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -36,6 +38,8 @@ final class DetailsView: UIView {
         
         stackView.addArrangedSubview(averageFeelsView)
         stackView.addArrangedSubview(windView)
+        stackView.addArrangedSubview(uvSunset)
+        stackView.addArrangedSubview(humidityPressureView)
         
         stackView.snp.makeConstraints{
             $0.edges.equalToSuperview()
@@ -45,5 +49,7 @@ final class DetailsView: UIView {
     func configure(with viewModel: WeatherViewModel) {
         averageFeelsView.configure(with: viewModel)
         windView.configure(with: viewModel)
+        uvSunset.configure(with: viewModel)
+        humidityPressureView.configure(with: viewModel)
     }
 }
