@@ -48,4 +48,5 @@ struct Weather: Decodable {
 struct Wind: Decodable {
     let speed: Double
     let deg: Int
+    let gust: Double?
 }

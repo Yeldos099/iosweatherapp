@@ -124,7 +124,7 @@ final class WindView: UIView {
             
             func configure(with viewModel: WeatherViewModel) {
                 windValueLabel.text = viewModel.windSpeed
-                gustValueLabel.text = viewModel.windDescription
+                gustValueLabel.text = viewModel.windGust
                 directionValueLabel.text = viewModel.windDirection
             }
     }

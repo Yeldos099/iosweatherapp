@@ -25,12 +25,12 @@ final class WeatherMapper {
                                 humidity: "\(response.main.humidity)%",
                                 windSpeed: "\(Int(response.wind.speed)) м/с",
                                 weatherId: response.weather.first?.id ?? 800,
-                                windDescription: "\(Int(response.wind.speed * 3.6)) км/ч)", feelsLikeDescription: response.main.feelsLike > response.main.temp ?
+                                windDescription: "Порывы ветра до \(Int(response.wind.speed * 3.6)) км/ч), \(response.weather.first?.description ?? "")", feelsLikeDescription: response.main.feelsLike > response.main.temp ?
                                 "По ощущениям теплее, чем на самом деле." :
                                     "По ощущениям холоднее, чем на самом деле.", windDirection: "\(response.wind.deg)°",
                                 pressure: "\(response.main.pressure) гПА",
                                 humidityDescription: "Точка росы сейчас: \(Int(response.main.tempMin))°",
                                 pressureDescription: "↓ гПА",
-                                averageDescription: "Сегодня Макс.: \(Int(response.main.tempMax))", timeOfDay: timeOfDay, sunsetTime: formatter.string(from: sunset), sunriseTime: formatter.string(from: sunrise), uvIndex: uvResponse.value)
+                                averageDescription: "Сегодня Макс.: \(Int(response.main.tempMax))", timeOfDay: timeOfDay, sunsetTime: formatter.string(from: sunset), sunriseTime: formatter.string(from: sunrise), uvIndex: uvResponse.value, windGust: "\(Int((response.wind.gust ?? response.wind.speed) * 3.6)) км/ч")
     }
 }

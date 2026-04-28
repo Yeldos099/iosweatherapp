@@ -33,7 +33,7 @@ final class DetailBlockView: UIView {
     
     
     lazy var subtitleLabel: UILabel = {
-        $0.textColor = .systemGray
+        $0.textColor = .white
         $0.font = .systemFont(ofSize: 12)
         $0.numberOfLines = 0
         $0.isHidden = true
@@ -78,13 +78,13 @@ final class DetailBlockView: UIView {
         }
         
         uvGradientView.snp.makeConstraints {
-            $0.top.equalTo(valueLabel.snp.bottom).offset(4)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(4)
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(uvGradientView.snp.bottom).offset(4)
+            $0.top.equalTo(valueLabel.snp.bottom).offset(4)
             $0.leading.trailing.equalToSuperview().inset(16)
         }
         
@@ -105,7 +105,7 @@ final class DetailBlockView: UIView {
         }
         
         subtitleLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
+            $0.top.equalTo(uvGradientView.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(12)
         }

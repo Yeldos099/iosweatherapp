@@ -29,4 +29,5 @@ struct WeatherViewModel {
     let sunsetTime: String
     let sunriseTime: String
     let uvIndex: Double
+    let windGust: String
 }
