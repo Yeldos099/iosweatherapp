@@ -49,6 +49,7 @@
 				Model/ForecastMapper.swift,
 				Model/ForecastResponse.swift,
 				Model/ForecastViewModel.swift,
+				Model/UVResponse.swift,
 				Model/WeatherMapper.swift,
 				Model/WeatherResponse.swift,
 				Model/WeatherViewModel.swift,

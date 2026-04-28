@@ -13,8 +13,13 @@ struct WeatherResponse: Decodable {
     let main: Main
     let weather: [Weather]
     let wind: Wind
+    let sys: Sys
 }
 
+struct Sys: Decodable {
+    let sunrise: TimeInterval
+    let sunset: TimeInterval
+}
 struct Main: Decodable {
     let temp: Double
     let feelsLike: Double

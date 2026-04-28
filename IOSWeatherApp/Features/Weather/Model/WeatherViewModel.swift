@@ -25,4 +25,7 @@ struct WeatherViewModel {
     let humidityDescription: String
     let pressureDescription: String
     let averageDescription: String
+    let timeOfDay: TimeOfDay
+    let sunsetTime: String
+    let sunriseTime: String
 }

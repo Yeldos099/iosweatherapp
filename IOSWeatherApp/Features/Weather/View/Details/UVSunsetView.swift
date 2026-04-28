@@ -40,6 +40,6 @@ final class UVSunsetView: UIView {
     
     func configure(with viewModel: WeatherViewModel) {
         uvBlock.configure(value: "0", description: "Низкий", subtitle: nil)
-        sunsetBlock.configure(value: "17:29", description: "Восход в 06:23", subtitle: nil)
+        sunsetBlock.configure(value: viewModel.sunsetTime, description: "Восход в \(viewModel.sunriseTime)", subtitle: nil)
     }
 }

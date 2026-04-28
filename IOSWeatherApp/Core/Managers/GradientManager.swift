@@ -12,6 +12,19 @@ enum TimeOfDay {
     case day
     case evening
     case night
+    case sunrise
+    case sunset
+    
+    static func current(now: Date, sunrise: Date, sunset: Date) -> TimeOfDay {
+        let sunriseEnd = sunrise.addingTimeInterval(3600)
+        let sunsetStart = sunset.addingTimeInterval(-3600)
+        
+        if now < sunrise  { return .night }
+        if now < sunriseEnd { return .sunrise }
+        if now < sunsetStart { return .day }
+        if now < sunset { return .sunset }
+        return .night
+    }
 }
 
 
@@ -32,6 +45,8 @@ final class GradientManager {
         case .day: return UIImage(named: "bgDay")
         case .evening: return UIImage(named: "bgEvening")
         case .night: return UIImage(named: "bgNight")
+        case .sunrise: return UIImage(named: "bgMorning")
+        case .sunset: return UIImage(named: "bgEvening")
         }
     }
     
@@ -49,6 +64,12 @@ final class GradientManager {
         case .night:
             return [AppColor.WeatherBackground.night.withAlphaComponent(0.3),
                     AppColor.WeatherBackground.night.withAlphaComponent(0.6)]
+        case .sunrise:
+            return [AppColor.WeatherBackground.sunnyDay.withAlphaComponent(0.3),
+                AppColor.WeatherBackground.sunnyDay.withAlphaComponent(0.7)]
+        case .sunset:
+            return [AppColor.WeatherBackground.cloudy.withAlphaComponent(0.3),
+                    AppColor.WeatherBackground.cloudy.withAlphaComponent(0.7)]
         }
     }
     

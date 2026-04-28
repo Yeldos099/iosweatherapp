@@ -205,7 +205,7 @@ final class MainViewController: UIViewController {
         dailyForecastView.snp.makeConstraints {
             $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(44 * 8 + 44)
+            $0.height.equalTo(264)
         }
     }
     
@@ -289,5 +289,6 @@ extension MainViewController: MainViewProtocol {
         minMaxLabel.text = "Макс: \(viewModel.tempMax) Мин: \(viewModel.tempMin)"
         hourlyForecastView.configureWind(with: viewModel.windDescription)
         detailsView.configure(with: viewModel)
+        backgroundImageView.image = GradientManager.backGroundImage(for: viewModel.timeOfDay)
     }
 }

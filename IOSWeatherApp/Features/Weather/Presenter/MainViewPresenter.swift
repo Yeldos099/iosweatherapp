@@ -112,4 +112,18 @@ final class MainViewPresenter: MainViewPresenterProtocol {
             ]
         return components.url
     }
+    
+    
+    private func makeUVURL(lat: Double, lon: Double) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.openweathermap.org"
+        components.path = "/data/2.5/uvi"
+        components.queryItems = [
+            .init(name: "lat", value: "\(lat)"),
+            .init(name: "lon", value: "\(lon)"),
+            .init(name: "appid", value: apiKey)
+        ]
+        return components.url
+    }
 }
