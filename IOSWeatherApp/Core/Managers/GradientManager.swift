@@ -73,16 +73,16 @@ final class GradientManager {
         }
     }
     
-    static func applyGradient(to view: UIView, colors: [UIColor]) {
+    static func applyGradient(to view: UIView, colors: [UIColor], startPoint: CGPoint = CGPoint(x: 0.5, y: 0), endPoint: CGPoint = CGPoint(x: 0, y: 1)) {
         view.layer.sublayers?
             .filter { $0 is CAGradientLayer }
             .forEach { $0.removeFromSuperlayer() }
         let gradient = CAGradientLayer()
         gradient.frame = view.bounds
         gradient.colors = colors.map { $0.cgColor }
-        gradient.startPoint = .init(x: 0.5, y: 0)
-        gradient.endPoint = .init(x: 0.5, y: 1)
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        gradient.cornerRadius = 2
         view.layer.insertSublayer(gradient, at: 0)
-//        view.layer.cornerRadius = 16
     }
 }

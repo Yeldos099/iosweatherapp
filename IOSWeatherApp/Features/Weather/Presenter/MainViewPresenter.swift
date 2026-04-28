@@ -59,13 +59,15 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         
         do {
             guard let weatherURL = makeWeatherURL(lat: coordinate.latitude, lon: coordinate.longitude),
-                  let forecastURL = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
+                  let forecastURL = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude),
+            let uvURL = makeUVURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
             
             async let weather: WeatherResponse = networkService.request(url: weatherURL)
             async let forecast: ForecastResponse = networkService.request(url: forecastURL)
+            async let uv: UVResponse = networkService.request(url: uvURL)
             
-            let (weatherResult, forecastResult) = try await (weather, forecast)
-            let weatherViewmodel = WeatherMapper.map(from: weatherResult)
+            let (weatherResult, forecastResult, uvResult) = try await (weather, forecast, uv)
+            let weatherViewmodel = WeatherMapper.map(from: weatherResult, uvResponse: uvResult)
             let ForecastViewModel = ForecastMapper.map(from: forecastResult)
             print("прогноз \(forecastResult.list.count)")
             

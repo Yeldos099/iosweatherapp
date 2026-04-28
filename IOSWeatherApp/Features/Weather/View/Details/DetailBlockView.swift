@@ -40,6 +40,13 @@ final class DetailBlockView: UIView {
         return $0
     }(UILabel())
     
+    
+    lazy var uvGradientView: UIView = {
+        $0.isHidden = true
+        $0.layer.cornerRadius = 2
+        return $0
+    }(UIView())
+    
      init(icon: String, title: String){
         super.init(frame: .zero)
          setupUI()
@@ -56,12 +63,29 @@ final class DetailBlockView: UIView {
         GradientManager.applyGradient(to: self, colors: GradientManager.gradientColors(for: GradientManager.timeOfDay()))
         layer.cornerRadius = 16
         clipsToBounds = true
+        if !uvGradientView.isHidden {
+            GradientManager.applyGradient(to: uvGradientView,
+                                          colors: [.green, .yellow, .orange, .red],
+                                          startPoint: CGPoint(x: 0, y: 0.5),
+                                          endPoint: CGPoint(x: 1, y: 0.5))
+        }
     }
     
     private func setupUI() {
-        [iconImageView, titleLabel, valueLabel, descriptionLabel, subtitleLabel].forEach{
+        [iconImageView, titleLabel, valueLabel, descriptionLabel, subtitleLabel, uvGradientView].forEach{
             addSubview($0)
             
+        }
+        
+        uvGradientView.snp.makeConstraints {
+            $0.top.equalTo(valueLabel.snp.bottom).offset(4)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(4)
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(uvGradientView.snp.bottom).offset(4)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
         
         iconImageView.snp.makeConstraints {
@@ -80,11 +104,6 @@ final class DetailBlockView: UIView {
             $0.leading.equalToSuperview().offset(16)
         }
         
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(valueLabel.snp.bottom).offset(4)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
         subtitleLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(4)
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -100,5 +119,10 @@ final class DetailBlockView: UIView {
             subtitleLabel.text = subtitle
             subtitleLabel.isHidden = false
         }
+    }
+    
+    func showUVGradient() {
+        uvGradientView.isHidden = false
+        setNeedsLayout()
     }
 }
