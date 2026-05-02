@@ -94,6 +94,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Model/CityModel.swift,
+				Presenter/SearchCompleterDelegate.swift,
+				Presenter/SearchViewPresenter.swift,
+				View/SearchViewController.swift,
 			);
 			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;
 		};
