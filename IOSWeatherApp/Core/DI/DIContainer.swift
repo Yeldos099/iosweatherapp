@@ -26,4 +26,6 @@ final class DIContainer {
                           locationManager: locationManager)
     }
     
+    lazy var cityStorage: CityStorageProtocol = CityStorage()
+    
 }

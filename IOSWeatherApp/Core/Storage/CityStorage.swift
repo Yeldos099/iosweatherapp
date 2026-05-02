@@ -7,8 +7,14 @@
 
 import Foundation
 
+protocol CityStorageProtocol {
+    func save(cities: [CityModel])
+    func load() -> [CityModel]
+    func add(city: CityModel)
+    func remove(at index: Int)
+}
 
-final class CityStorage {
+final class CityStorage: CityStorageProtocol {
     
     private let key = "savedCities"
     private let defaults = UserDefaults.standard
