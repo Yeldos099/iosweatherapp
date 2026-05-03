@@ -27,7 +27,7 @@ final class MainViewPresenter: MainViewPresenterProtocol {
     private let networkService: NetworkServiceProtocol
     private var locationManager: LocationManagerProtocol
     
-    private let apiKey = "c18feebd5f6bce317baed061419aa3e5"
+    private let apiKey = AppConstants.apiKey
     
     init(view: MainViewProtocol? , networkService: NetworkServiceProtocol, locationManager: LocationManagerProtocol) {
         self.view = view

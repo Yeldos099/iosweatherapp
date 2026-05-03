@@ -26,6 +26,8 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
     private let completerDelegate = SearchCompleterDelegate()
     private var debounceTimer: Timer?
     
+    
+    private let apiKey = AppConstants.apiKey
     init(storage: CityStorageProtocol){
         self.storage = storage
         setupCompleter()
