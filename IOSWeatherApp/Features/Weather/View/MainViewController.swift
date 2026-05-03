@@ -83,6 +83,19 @@ final class MainViewController: UIViewController {
         return $0
     }(UILabel())
     
+    lazy var addBtn: UIButton = {
+        $0.layer.cornerRadius = 30
+        $0.backgroundColor = .black
+        $0.tintColor = .white
+        $0.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
+        return $0
+    }(UIButton())
+    
+    @objc private func searchTapped(){
+        let vc = Builder.makeSearchViewController()
+        present(vc, animated: true)
+    }
+    
     lazy var activityIndicator: UIActivityIndicatorView = {
         $0.style = .large
         $0.color = .white
@@ -123,6 +136,12 @@ final class MainViewController: UIViewController {
     private func setupUI() {
         setupBackground()
         setupScrollView()
+        view.addSubview(addBtn)
+        addBtn.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(50)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.width.height.equalTo(40)
+        }
         setupTopSection()
         setupHourlySection()
         setupDailySection()
@@ -146,6 +165,7 @@ final class MainViewController: UIViewController {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
