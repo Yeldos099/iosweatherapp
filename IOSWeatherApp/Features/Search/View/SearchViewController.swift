@@ -14,6 +14,7 @@ protocol SearchViewControllerProtocol: AnyObject {
     func showSavedCities(_ cities: [CityModel])
     func showError(_ message: String)
     func showEmpty()
+    func showLoading()
 }
 
 
@@ -69,6 +70,22 @@ final class SearchViewController: UIViewController {
         $0.addGestureRecognizer(tap)
         return $0
     }(UILabel())
+    
+    private lazy var emptyLabel: UILabel = {
+        $0.text = "Ничего не найдено"
+        $0.textColor = .secondaryLabel
+        $0.font = .systemFont(ofSize: 16)
+        $0.textAlignment = .center
+        $0.isHidden = true
+        return $0
+    }(UILabel())
+    
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        $0.style = .medium
+        $0.color = .white
+        $0.hidesWhenStopped = true
+        return $0
+    }(UIActivityIndicatorView())
     init(presenter: SearchViewPresenterProtocol){
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -87,12 +104,20 @@ final class SearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .searchBg
         
-        [titleLabel, settingsButton, tableView, linkLabel, searchTextfield].forEach {
+        [titleLabel, settingsButton, tableView, linkLabel, searchTextfield, emptyLabel, loadingIndicator].forEach {
             view.addSubview($0)
         }
         
         searchTextfield.onTextChanged = { [weak self] text in
             self?.presenter.search(query: text)
+        }
+        
+        emptyLabel.snp.makeConstraints {
+            $0.center.equalTo(tableView)
+        }
+        
+        loadingIndicator.snp.makeConstraints {
+            $0.center.equalTo(tableView)
         }
         
         titleLabel.snp.makeConstraints {
@@ -132,17 +157,33 @@ final class SearchViewController: UIViewController {
 
 
 extension SearchViewController: SearchViewControllerProtocol {
+    
+    func showLoading() {
+        loadingIndicator.startAnimating()
+        emptyLabel.isHidden = true
+        searchResults = []
+        tableView.reloadData()
+    }
+    
     func showError(_ message: String) {
-        //
+        loadingIndicator.stopAnimating()
+        emptyLabel.text = message
+        emptyLabel.isHidden = false
+        searchResults = []
+        tableView.reloadData()
     }
     
     func showEmpty() {
+        loadingIndicator.stopAnimating()
+        emptyLabel.isHidden = false
         searchResults = []
         tableView.reloadData()
     }
     
     func showResults(_ results: [MKLocalSearchCompletion]) {
-        self.searchResults = results
+        loadingIndicator.stopAnimating()
+        emptyLabel.isHidden = true
+        searchResults = results
         tableView.reloadData()
     }
     

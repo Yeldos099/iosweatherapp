@@ -71,6 +71,8 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
             view?.showEmpty()
             return
         }
+        view?.showLoading()
+        
         
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] _ in
             self?.searchCompleter.queryFragment = query
@@ -122,7 +124,6 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
     }
     
     private func updateStorage(city: CityModel, isCurrentLocation: Bool) {
-        print("cities after save \(storage.load().map { $0.cityName})")
         if isCurrentLocation {
             var cities = storage.load()
             if let index = cities.firstIndex(where: { $0.isCurrentLocation }) {
