@@ -86,7 +86,7 @@ final class CityCell: UITableViewCell {
         
         temperatureLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().inset(16)
         }
         
         cityNameLabel.snp.makeConstraints {
@@ -109,7 +109,7 @@ final class CityCell: UITableViewCell {
         
         minMaxLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(12)
-            $0.trailing.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().inset(16)
         }
     }
     

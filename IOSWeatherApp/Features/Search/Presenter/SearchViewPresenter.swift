@@ -91,8 +91,8 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
     }
     
     private func fetchWeatherAndSave(cityName: String?, latitude: Double, longitude: Double, isCurrentLocation: Bool) async {
-        guard let url = makeWeatherURL(lat: latitude, lon: longitude) else { return }
-        
+        guard let url = makeWeatherURL(lat: latitude, lon: longitude) else {
+            return }
         do {
             let response: WeatherResponse = try await networkService.request(url: url)
             let name = cityName ?? response.name
@@ -122,6 +122,7 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
     }
     
     private func updateStorage(city: CityModel, isCurrentLocation: Bool) {
+        print("cities after save \(storage.load().map { $0.cityName})")
         if isCurrentLocation {
             var cities = storage.load()
             if let index = cities.firstIndex(where: { $0.isCurrentLocation }) {
