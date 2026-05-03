@@ -26,6 +26,12 @@ final class DIContainer {
                           locationManager: locationManager)
     }
     
+    func makeSearchPresenter() -> SearchViewPresenter {
+        SearchViewPresenter(storage: cityStorage,
+                            networkService: networkService,
+                            locationManager: locationManager)
+    }
+    
     lazy var cityStorage: CityStorageProtocol = CityStorage()
     
 }

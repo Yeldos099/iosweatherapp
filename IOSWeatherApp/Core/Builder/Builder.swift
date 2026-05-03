@@ -17,13 +17,8 @@ final class Builder {
     }
     
     static func makeSearchViewController() -> SearchViewController {
-        print("making search vc")
-        let storage = DIContainer.shared.cityStorage
-        print("storage ok")
-        let presenter = SearchViewPresenter(storage: storage)
-        print("presenter ok")
+        let presenter = DIContainer.shared.makeSearchPresenter()
         let vc = SearchViewController(presenter: presenter)
-        print("vc ok")
         presenter.view = vc
         return vc
     }
