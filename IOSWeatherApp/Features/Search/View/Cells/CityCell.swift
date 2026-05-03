@@ -77,30 +77,34 @@ final class CityCell: UITableViewCell {
         containerView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(6)
             $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(88)
         }
         
         backgroundImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
+        temperatureLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(16)
+        }
+        
         cityNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)
             $0.leading.equalToSuperview().offset(16)
+            $0.trailing.lessThanOrEqualTo(temperatureLabel.snp.leading).offset(-8)
         }
         
         subtitleLabel.snp.makeConstraints {
             $0.top.equalTo(cityNameLabel.snp.bottom).offset(4)
             $0.leading.equalToSuperview().offset(16)
+            $0.trailing.lessThanOrEqualTo(temperatureLabel.snp.leading).offset(-8)
         }
         
         descriptionLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(12)
             $0.leading.equalToSuperview().offset(16)
-        }
-        
-        temperatureLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(16)
+            $0.trailing.lessThanOrEqualTo(minMaxLabel.snp.leading).offset(-8)
         }
         
         minMaxLabel.snp.makeConstraints {

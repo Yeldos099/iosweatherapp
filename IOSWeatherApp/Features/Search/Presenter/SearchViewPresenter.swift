@@ -28,7 +28,7 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
     
     init(storage: CityStorageProtocol){
         self.storage = storage
-        
+        setupCompleter()
     }
     
     private func setupCompleter() {

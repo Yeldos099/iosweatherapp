@@ -55,7 +55,7 @@ final class SearchViewController: UIViewController {
         $0.dataSource = self
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        $0.register(CityCell.self, forCellReuseIdentifier: CityCell.reuseIdentifier)
         return $0
     }(UITableView())
     
@@ -85,7 +85,7 @@ final class SearchViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .brown
+        view.backgroundColor = .searchBg
         
         [titleLabel, settingsButton, tableView, linkLabel, searchTextfield].forEach {
             view.addSubview($0)
@@ -103,17 +103,18 @@ final class SearchViewController: UIViewController {
         settingsButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel)
             $0.trailing.equalToSuperview().inset(16)
+            $0.width.height.equalTo(40)
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(18)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(linkLabel.snp.top).offset(-16)
+            $0.bottom.equalTo(linkLabel.snp.top).offset(-8)
         }
         
         linkLabel.snp.makeConstraints {
-            $0.bottom.equalTo(searchTextfield.snp.top).offset(-16)
-            $0.centerX.equalToSuperview()
+            $0.top.equalTo(tableView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
         
         searchTextfield.snp.makeConstraints {
@@ -154,6 +155,11 @@ extension SearchViewController: SearchViewControllerProtocol {
 
 extension SearchViewController: UITableViewDataSource {
     
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        Section.allCases.count
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.reuseIdentifier, for: indexPath) as! CityCell
         switch Section(rawValue: indexPath.section) {
@@ -164,10 +170,6 @@ extension SearchViewController: UITableViewDataSource {
         return cell
     }
     
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        Section.allCases.count
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
