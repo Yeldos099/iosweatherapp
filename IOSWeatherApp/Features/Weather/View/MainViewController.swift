@@ -83,17 +83,42 @@ final class MainViewController: UIViewController {
         return $0
     }(UILabel())
     
-    lazy var addBtn: UIButton = {
-        $0.layer.cornerRadius = 30
-        $0.backgroundColor = .black
+    private lazy var bottomStackView: UIStackView = {
+        $0.axis = .horizontal
+        $0.distribution = .equalSpacing
+        $0.alignment = .center
+        return $0
+    }(UIStackView())
+    
+    private lazy var mapBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = .tabbarMap
+        config.contentInsets = .zero
+        $0.configuration = config
         $0.tintColor = .white
-        $0.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         return $0
     }(UIButton())
     
-    @objc private func searchTapped(){
+    private lazy var detailsBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = .tabbarDots
+        config.contentInsets = .zero
+        $0.configuration = config
+        $0.tintColor = .white
+        return $0
+    }(UIButton())
+    
+    private lazy var listBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = .tabbarList
+        config.contentInsets = .zero
+        $0.configuration = config
+        return $0
+    }(UIButton(primaryAction: action))
+    
+    lazy var action: UIAction = UIAction { [weak self] _ in
         let vc = Builder.makeSearchViewController()
-        present(vc, animated: true)
+        self?.navigationController?.pushViewController(vc, animated: true)
     }
     
     lazy var activityIndicator: UIActivityIndicatorView = {
@@ -136,17 +161,26 @@ final class MainViewController: UIViewController {
     private func setupUI() {
         setupBackground()
         setupScrollView()
-        view.addSubview(addBtn)
-        addBtn.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(50)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.width.height.equalTo(40)
-        }
+        setupBottomBar()
         setupTopSection()
         setupHourlySection()
         setupDailySection()
         setupActivityIndicator()
         setupDetailsSection()
+    }
+    
+    private func setupBottomBar() {
+        [mapBtn, detailsBtn, listBtn].forEach{
+            bottomStackView.addArrangedSubview($0)
+            $0.snp.makeConstraints {
+                $0.height.equalTo(44)
+            }
+        }
+        view.addSubview(bottomStackView)
+        bottomStackView.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.leading.trailing.equalToSuperview().inset(40)
+        }
     }
     
     private func setupBackground(){
@@ -225,7 +259,7 @@ final class MainViewController: UIViewController {
         dailyForecastView.snp.makeConstraints {
             $0.top.equalTo(hourlyForecastView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(264)
+            $0.height.equalTo(396)
         }
     }
     

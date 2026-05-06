@@ -45,6 +45,7 @@ final class CityCell: UITableViewCell {
     
     private lazy var temperatureLabel: UILabel = {
         $0.font = .systemFont(ofSize: 48, weight: .medium)
+        $0.textColor = .white
         return $0
     }(UILabel())
     
@@ -77,7 +78,7 @@ final class CityCell: UITableViewCell {
         containerView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(6)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(88)
+            $0.height.equalTo(100)
         }
         
         backgroundImageView.snp.makeConstraints {

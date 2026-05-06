@@ -50,6 +50,7 @@
 				Model/ForecastViewModel.swift,
 				Model/UVResponse.swift,
 				Model/WeatherMapper.swift,
+				Model/WeatherOneCall.swift,
 				Model/WeatherResponse.swift,
 				Model/WeatherViewModel.swift,
 				Presenter/MainViewPresenter.swift,

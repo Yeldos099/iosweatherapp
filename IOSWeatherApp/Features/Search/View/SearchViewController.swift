@@ -99,6 +99,7 @@ final class SearchViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         presenter.viewDidLoad()
+        navigationItem.hidesBackButton = true
     }
     
     private func setupUI() {
@@ -134,7 +135,7 @@ final class SearchViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(searchTextfield.snp.top).offset(-60)
+            $0.height.equalTo(view).multipliedBy(0.6)
         }
         
         linkLabel.snp.makeConstraints {
@@ -143,8 +144,8 @@ final class SearchViewController: UIViewController {
         }
         
         searchTextfield.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(28)
-            $0.leading.trailing.equalToSuperview().inset(28)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(44)
         }
     }

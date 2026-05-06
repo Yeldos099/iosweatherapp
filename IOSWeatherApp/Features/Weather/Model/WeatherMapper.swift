@@ -9,7 +9,7 @@ import Foundation
 
 
 final class WeatherMapper {
-    static func map(from response: WeatherResponse, uvResponse: UVResponse) -> WeatherViewModel {
+    static func map(from response: WeatherResponse, uvIndex: Double) -> WeatherViewModel {
         let sunrise = Date(timeIntervalSince1970: response.sys.sunrise)
         let sunset = Date(timeIntervalSince1970: response.sys.sunset)
         let formatter = DateFormatter()
@@ -31,6 +31,6 @@ final class WeatherMapper {
                                 pressure: "\(response.main.pressure)",
                                 humidityDescription: "Точка росы сейчас: \(Int(response.main.tempMin))°",
                                 pressureDescription: "↓ гПА",
-                                averageDescription: "Сегодня Макс.: \(Int(response.main.tempMax))", timeOfDay: timeOfDay, sunsetTime: formatter.string(from: sunset), sunriseTime: formatter.string(from: sunrise), uvIndex: uvResponse.value, windGust: "\(Int((response.wind.gust ?? response.wind.speed) * 3.6)) км/ч")
+                                averageDescription: "Сегодня Макс.: \(Int(response.main.tempMax))", timeOfDay: timeOfDay, sunsetTime: formatter.string(from: sunset), sunriseTime: formatter.string(from: sunrise), uvIndex:uvIndex, windGust: "\(Int((response.wind.gust ?? response.wind.speed) * 3.6)) км/ч")
     }
 }

@@ -24,7 +24,7 @@ final class DailyForecastView: UIView {
     
     lazy var titleLabel: UILabel = {
         $0.appTextStyle(.sectionTitle)
-        $0.text = "ПРОГНОЗ НА 5 ДНЕЙ"
+        $0.text = "ПРОГНОЗ НА 8 ДНЕЙ"
         $0.textColor = .systemGray
         return $0
     }(UILabel())

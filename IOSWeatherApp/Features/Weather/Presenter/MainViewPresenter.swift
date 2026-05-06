@@ -59,17 +59,14 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         
         do {
             guard let weatherURL = makeWeatherURL(lat: coordinate.latitude, lon: coordinate.longitude),
-                  let forecastURL = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude),
-            let uvURL = makeUVURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
+                  let forecastURL = makeForecastURL(lat: coordinate.latitude, lon: coordinate.longitude) else { return }
             
             async let weather: WeatherResponse = networkService.request(url: weatherURL)
-            async let forecast: ForecastResponse = networkService.request(url: forecastURL)
-            async let uv: UVResponse = networkService.request(url: uvURL)
+            async let forecast: OneCallResponse = networkService.request(url: forecastURL)
             
-            let (weatherResult, forecastResult, uvResult) = try await (weather, forecast, uv)
-            let weatherViewmodel = WeatherMapper.map(from: weatherResult, uvResponse: uvResult)
+            let (weatherResult, forecastResult) = try await (weather, forecast)
+            let weatherViewmodel = WeatherMapper.map(from: weatherResult, uvIndex: forecastResult.current.uvi)
             let ForecastViewModel = ForecastMapper.map(from: forecastResult)
-            print("прогноз \(forecastResult.list.count)")
             
             await MainActor.run {
                 view?.hideLoading()
@@ -104,27 +101,14 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.openweathermap.org"
-        components.path = "/data/2.5/forecast"
+        components.path = "/data/3.0/onecall"
         components.queryItems = [
             .init(name: "lat", value: "\(lat)"),
             .init(name: "lon", value: "\(lon)"),
-            .init(name: "appid", value: apiKey),
+            .init(name: "appid", value: AppConstants.apiKey),
             .init(name: "units", value: "metric"),
-            .init(name: "lang", value: "ru")
-            ]
-        return components.url
-    }
-    
-    
-    private func makeUVURL(lat: Double, lon: Double) -> URL? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.openweathermap.org"
-        components.path = "/data/2.5/uvi"
-        components.queryItems = [
-            .init(name: "lat", value: "\(lat)"),
-            .init(name: "lon", value: "\(lon)"),
-            .init(name: "appid", value: apiKey)
+            .init(name: "lang", value: "ru"),
+            .init(name: "exclude", value: "minutely,alerts")
         ]
         return components.url
     }
