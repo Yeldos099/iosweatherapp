@@ -45,7 +45,7 @@ final class SearchViewController: UIViewController {
         $0.setImage(.dots, for: .normal)
         $0.tintColor = .white
         $0.backgroundColor = .clear
-        $0.layer.cornerRadius = 40
+        $0.layer.cornerRadius = 20
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.white.cgColor
         return $0
@@ -62,8 +62,9 @@ final class SearchViewController: UIViewController {
     
     private lazy var linkLabel: UILabel = {
         $0.text = "Подробнее о метеорологических и картографических данных"
-        $0.numberOfLines = 0
-        $0.textColor = .secondaryLabel
+        $0.numberOfLines = 1
+        $0.minimumScaleFactor = 0.7
+        $0.textColor = .white
         $0.font = .systemFont(ofSize: 14)
         $0.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapped))
@@ -105,7 +106,7 @@ final class SearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .searchBg
         
-        [titleLabel, settingsButton, tableView, linkLabel, searchTextfield, emptyLabel, loadingIndicator].forEach {
+        [titleLabel, settingsButton, tableView, searchTextfield, emptyLabel, loadingIndicator].forEach {
             view.addSubview($0)
         }
         
@@ -138,10 +139,14 @@ final class SearchViewController: UIViewController {
             $0.height.equalTo(view).multipliedBy(0.6)
         }
         
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+        footer.addSubview(linkLabel)
+        
         linkLabel.snp.makeConstraints {
-            $0.top.equalTo(tableView.snp.bottom).offset(8)
+            $0.center.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(16)
         }
+        tableView.tableFooterView = footer
         
         searchTextfield.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
