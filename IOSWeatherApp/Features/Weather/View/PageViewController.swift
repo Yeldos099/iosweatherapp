@@ -66,6 +66,11 @@ final class PageViewController: UIViewController {
         loadCities()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadCities()
+    }
+    
     private func setupPageVC() {
         addChild(pageVC)
         view.addSubview(pageVC.view)
@@ -100,6 +105,22 @@ final class PageViewController: UIViewController {
         vc.presenter = presenter
         vc.city = cities[index]
         return vc
+    }
+    
+    private func reloadCities() {
+        let newCities = DIContainer.shared.cityStorage.load()
+        guard newCities != cities else { return }
+        cities = newCities
+        
+        guard !cities.isEmpty else { return }
+        
+        if currentIndex >= cities.count {
+            currentIndex = cities.count - 1
+        }
+        
+        indicatorView.configure(count: cities.count, currentIndex: currentIndex)
+        let vc = makeWeatherVC(for: currentIndex)
+        pageVC.setViewControllers( [vc], direction: .forward, animated: false)
     }
 }
 

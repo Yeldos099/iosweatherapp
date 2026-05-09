@@ -18,3 +18,10 @@ struct CityModel: Codable {
     var temperature: String?
     let isCurrentLocation: Bool
 }
+
+
+extension CityModel: Equatable {
+    static func == (lhs: CityModel, rhs: CityModel) -> Bool {
+        lhs.cityName == rhs.cityName && lhs.latitude == rhs.latitude
+    }
+}

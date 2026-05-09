@@ -87,6 +87,20 @@ final class SearchViewController: UIViewController {
         $0.hidesWhenStopped = true
         return $0
     }(UIActivityIndicatorView())
+    
+    
+    private lazy var backBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.left")
+        config.contentInsets = .zero
+        $0.configuration = config
+        $0.tintColor = .white
+        $0.addAction(UIAction { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        }, for: .touchUpInside)
+        return $0
+    }(UIButton())
+    
     init(presenter: SearchViewPresenterProtocol){
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -106,9 +120,18 @@ final class SearchViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .searchBg
         
-        [titleLabel, settingsButton, tableView, searchTextfield, emptyLabel, loadingIndicator].forEach {
+        
+        [titleLabel, settingsButton, tableView, searchTextfield, emptyLabel, loadingIndicator, backBtn].forEach {
             view.addSubview($0)
         }
+        
+        
+        backBtn.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalTo(titleLabel)
+            $0.width.height.equalTo(44)
+        }
+        
         
         searchTextfield.onTextChanged = { [weak self] text in
             self?.presenter.search(query: text)
