@@ -84,43 +84,6 @@ final class MainViewController: UIViewController {
         return $0
     }(UILabel())
     
-    private lazy var bottomStackView: UIStackView = {
-        $0.axis = .horizontal
-        $0.distribution = .equalSpacing
-        $0.alignment = .center
-        return $0
-    }(UIStackView())
-    
-    private lazy var mapBtn: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = .tabbarMap
-        config.contentInsets = .zero
-        $0.configuration = config
-        $0.tintColor = .white
-        return $0
-    }(UIButton())
-    
-    private lazy var detailsBtn: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = .tabbarDots
-        config.contentInsets = .zero
-        $0.configuration = config
-        $0.tintColor = .white
-        return $0
-    }(UIButton())
-    
-    private lazy var listBtn: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = .tabbarList
-        config.contentInsets = .zero
-        $0.configuration = config
-        return $0
-    }(UIButton(primaryAction: action))
-    
-    lazy var action: UIAction = UIAction { [weak self] _ in
-        let vc = Builder.makeSearchViewController()
-        self?.navigationController?.pushViewController(vc, animated: true)
-    }
     
     lazy var activityIndicator: UIActivityIndicatorView = {
         $0.style = .large
@@ -162,7 +125,6 @@ final class MainViewController: UIViewController {
     private func setupUI() {
         setupBackground()
         setupScrollView()
-        setupBottomBar()
         setupTopSection()
         setupHourlySection()
         setupDailySection()
@@ -170,19 +132,6 @@ final class MainViewController: UIViewController {
         setupDetailsSection()
     }
     
-    private func setupBottomBar() {
-        [mapBtn, detailsBtn, listBtn].forEach{
-            bottomStackView.addArrangedSubview($0)
-            $0.snp.makeConstraints {
-                $0.height.equalTo(44)
-            }
-        }
-        view.addSubview(bottomStackView)
-        bottomStackView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
-            $0.leading.trailing.equalToSuperview().inset(40)
-        }
-    }
     
     private func setupBackground(){
         view.addSubview(backgroundImageView)

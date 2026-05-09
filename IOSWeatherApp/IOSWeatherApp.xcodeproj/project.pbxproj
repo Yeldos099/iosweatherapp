@@ -65,6 +65,7 @@
 				View/DetailsView.swift,
 				View/HourlyForecastView.swift,
 				View/MainViewController.swift,
+				View/PageIndicatorView.swift,
 				View/PageViewController.swift,
 				View/TemperatureRangeView.swift,
 			);
