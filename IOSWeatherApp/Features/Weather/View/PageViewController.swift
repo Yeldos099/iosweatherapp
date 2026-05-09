@@ -52,6 +52,7 @@ final class PageViewController: UIViewController {
         $0.configuration = config
         $0.tintColor = .white
         $0.addAction(UIAction { [weak self] _ in
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
             let vc = Builder.makeSearchViewController()
             self?.navigationController?.pushViewController(vc, animated: true)
         }, for: .touchUpInside)
@@ -154,5 +155,6 @@ extension PageViewController: UIPageViewControllerDelegate {
               let index = cities.firstIndex(where: { $0.cityName == city.cityName }) else { return }
         currentIndex = index
         indicatorView.update(currentIndex: index)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 }
