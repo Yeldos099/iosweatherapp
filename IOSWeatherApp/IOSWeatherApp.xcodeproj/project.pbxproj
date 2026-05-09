@@ -65,6 +65,7 @@
 				View/DetailsView.swift,
 				View/HourlyForecastView.swift,
 				View/MainViewController.swift,
+				View/PageViewController.swift,
 				View/TemperatureRangeView.swift,
 			);
 			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;

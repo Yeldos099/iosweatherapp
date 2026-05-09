@@ -27,6 +27,7 @@ final class MainViewController: UIViewController {
     
     
     var presenter: MainViewPresenterProtocol!
+    var city: CityModel?
     
     lazy var backgroundImageView: UIImageView = {
         $0.contentMode = .scaleAspectFill
@@ -144,7 +145,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        presenter.viewDidLoad()
+        presenter.viewDidLoad(city: city)
     }
     
     

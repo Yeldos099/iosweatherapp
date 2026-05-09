@@ -9,12 +9,13 @@ import Foundation
 import CoreLocation
 
 protocol MainViewPresenterProtocol: AnyObject {
-    func viewDidLoad()
+    func viewDidLoad(city: CityModel?)
     func refresh()
 }
 
 
 final class MainViewPresenter: MainViewPresenterProtocol {
+    
     
     func refresh() {
         Task {
@@ -35,9 +36,13 @@ final class MainViewPresenter: MainViewPresenterProtocol {
         self.locationManager = locationManager
     }
     
-    func viewDidLoad() {
+    func viewDidLoad(city: CityModel?) {
         Task {
-            await fetchLocation()
+            if let city = city {
+                await fetchWeather(coordinate: CLLocationCoordinate2D(latitude: city.latitude, longitude: city.longitude))
+            } else {
+                await fetchLocation()
+            }
         }
     }
     

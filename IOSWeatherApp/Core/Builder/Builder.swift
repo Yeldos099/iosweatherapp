@@ -22,4 +22,8 @@ final class Builder {
         presenter.view = vc
         return vc
     }
+    
+    static func createPageViewController() -> PageViewController {
+        PageViewController()
+    }
 }
