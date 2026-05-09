@@ -104,6 +104,7 @@ final class MainViewController: UIViewController {
     lazy var detailsView = DetailsView()
     
     private var isGradientApplied: Bool = false
+    private var isAnimated: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -230,7 +231,28 @@ final class MainViewController: UIViewController {
         }
     }
     
-   
+   private func animateSections() {
+       
+       guard !isAnimated else { return }
+       isAnimated = true
+       
+       let sections: [UIView] = [hourlyForecastView, dailyForecastView, detailsView]
+       
+       sections.forEach {
+           $0.alpha = 0
+           $0.transform = CGAffineTransform(translationX: 0, y: 40)
+       }
+       
+       sections.enumerated().forEach { index, view in
+           UIView.animate(withDuration: 0.5,
+                          delay: Double(index) * 0.15,
+                          usingSpringWithDamping: 0.8,
+                          initialSpringVelocity: 0.5) {
+               view.alpha = 1
+               view.transform = .identity
+           }
+       }
+    }
     
     @MainActor
     private func updateState(_ state: MainViewState) {
@@ -264,6 +286,7 @@ extension MainViewController: MainViewProtocol {
     func displayForecast(viewModel: ForecastViewModel) {
         hourlyForecastView.configure(with: viewModel.hourly)
         dailyForecastView.configure(with: viewModel.daily, globalMin: viewModel.globalMinTemp, globalMax: viewModel.globalMaxTemp)
+        animateSections()
     }
     
     
