@@ -210,7 +210,7 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.reuseIdentifier, for: indexPath) as! CityCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.reuseIdentifier, for: indexPath) as? CityCell else { return UITableViewCell() }
         switch Section(rawValue: indexPath.section) {
         case .savedCities: cell.configure(with: savedCities[indexPath.row])
         case .searchResults: cell.configureSearch(with: searchResults[indexPath.row])

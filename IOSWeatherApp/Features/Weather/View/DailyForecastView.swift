@@ -93,7 +93,7 @@ extension DailyForecastView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DailyForecastCell.identifier, for: indexPath) as! DailyForecastCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyForecastCell.identifier, for: indexPath) as? DailyForecastCell else { return UITableViewCell() }
         cell.configure(with: items[indexPath.row], globalMin: globalMin, globalMax: globalMax)
         return cell
     }
