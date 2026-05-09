@@ -116,6 +116,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				GradientManager.swift,
+				NavigationTransitionDelegate.swift,
+				PopTransition.swift,
+				PushTransition.swift,
 				WeatherIconManager.swift,
 			);
 			target = E1457BBA2F88F167000DD16C /* IOSWeatherApp */;

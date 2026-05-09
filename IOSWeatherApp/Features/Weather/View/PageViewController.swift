@@ -58,12 +58,14 @@ final class PageViewController: UIViewController {
         return $0
     }(UIButton())
     
+    private let transitionDelegate = NavigationTransitionDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPageVC()
         setupBottomBar()
         loadCities()
+        navigationController?.delegate = transitionDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
