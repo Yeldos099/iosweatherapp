@@ -77,6 +77,12 @@ final class SearchTextField: UIView {
         clearButton.isHidden = true
         onTextChanged?("")
     }
+    
+    func clear() {
+        textField.text = ""
+        clearButton.isHidden = true
+        onTextChanged?("")
+    }
 }
 
 

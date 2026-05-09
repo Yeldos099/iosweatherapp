@@ -195,6 +195,8 @@ extension SearchViewController: SearchViewControllerProtocol {
     
     func showSavedCities(_ cities: [CityModel]) {
         self.savedCities = cities
+        emptyLabel.isHidden = true
+        loadingIndicator.stopAnimating()
         tableView.reloadData()
     }
 }
@@ -230,6 +232,8 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard Section(rawValue: indexPath.section) == .searchResults else { return }
         presenter.selectCity(searchResults[indexPath.row])
+        searchTextfield.clear()
+        presenter.search(query: "")
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
