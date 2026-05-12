@@ -23,7 +23,7 @@ final class ForecastMapper {
     private static func mapHourly(from items: [OneCallResponse.HourlyWeather]) -> [HourForecast] {
         return items.prefix(8).enumerated().map { index,item in
             HourForecast(time: index == 0 ? "Сейчас" : formatHour(from: item.dt),
-                         temp: "\(Int(item.temp))°",
+                         temp: LocalizationManager.shared.formatTemperature(item.temp),
                          weatherId: item.weather.first?.id ?? 800)
         }
     }
@@ -32,8 +32,8 @@ final class ForecastMapper {
         return items.prefix(8).compactMap{
             item in
             DayForecast(dayName: formatDay(from: item.dt),
-                        tempMin: "\(Int(item.temp.min))°",
-                        tempMax: "\(Int(item.temp.max))°",
+                        tempMin: LocalizationManager.shared.formatTemperature(item.temp.min),
+                        tempMax: LocalizationManager.shared.formatTemperature(item.temp.max),
                         tempMinValue: item.temp.min,
                         tempMaxValue: item.temp.max,
                         weatherId: item.weather.first?.id ?? 800)
@@ -50,7 +50,7 @@ final class ForecastMapper {
     private static func formatDay(from timestamp: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timestamp)
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.locale = Locale.current
         formatter.dateFormat = "EEE"
         return formatter.string(from: date).capitalized
     }

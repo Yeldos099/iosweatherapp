@@ -162,7 +162,7 @@ final class SearchViewController: UIViewController {
             $0.height.equalTo(view).multipliedBy(0.6)
         }
         
-        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+        let footer = UIView(frame: CGRect (x: 0, y: 0, width: 0, height: 50))
         footer.addSubview(linkLabel)
         
         linkLabel.snp.makeConstraints {

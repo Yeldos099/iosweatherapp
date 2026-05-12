@@ -41,7 +41,7 @@ final class UVSunsetView: UIView {
     func configure(with viewModel: WeatherViewModel) {
         uvBlock.configure(value: "\(Int(viewModel.uvIndex))", description: uvDescription(for: viewModel.uvIndex), subtitle: uvSubtitle(for: viewModel.uvIndex))
         uvBlock.showUVGradient()
-        sunsetBlock.configure(value: viewModel.sunriseTime, description: "Восход в \(viewModel.sunsetTime)", subtitle: nil)
+        sunsetBlock.configure(value: viewModel.sunsetTime, description: "Восход в \(viewModel.sunriseTime)", subtitle: nil)
     }
     
     private func uvDescription(for value: Double) -> String {

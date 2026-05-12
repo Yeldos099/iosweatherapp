@@ -116,6 +116,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				GradientManager.swift,
+				LocalizationManager.swift,
 				NavigationTransitionDelegate.swift,
 				PopTransition.swift,
 				PushTransition.swift,
