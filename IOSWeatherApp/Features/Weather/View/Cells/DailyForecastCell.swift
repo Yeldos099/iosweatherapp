@@ -64,7 +64,7 @@ final class DailyForecastCell: UITableViewCell {
         }
         
         iconImageView.snp.makeConstraints {
-            $0.leading.equalTo(dayLabel.snp.trailing).offset(20)
+            $0.leading.equalToSuperview().offset(90)
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(24)
         }
