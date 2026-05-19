@@ -115,10 +115,9 @@ final class MainViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated, )
+        super.viewDidAppear(animated)
         guard !isGradientApplied else { return }
         isGradientApplied = true
-        print(backgroundImageView.bounds)
         let colors = GradientManager.gradientColors(for: GradientManager.timeOfDay())
         GradientManager.applyGradient(to: backgroundImageView, colors: colors)
     }

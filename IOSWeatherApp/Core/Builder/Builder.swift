@@ -9,13 +9,6 @@ import UIKit
 
 final class Builder {
     
-    static func createViewController() -> UIViewController {
-        let view = MainViewController()
-        let presenter = DIContainer.shared.makeMainPresenter(view: view)
-        view.presenter = presenter
-        return view
-    }
-    
     static func makeSearchViewController() -> SearchViewController {
         let presenter = DIContainer.shared.makeSearchPresenter()
         let vc = SearchViewController(presenter: presenter)

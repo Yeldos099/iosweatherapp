@@ -40,7 +40,7 @@ final class AverageFeelsView: UIView {
     }
     
     func configure(with viewModel: WeatherViewModel){
-        averageBlock.configure(value: viewModel.tempMax, description: viewModel.averageDescription, subtitle: "Сегодня Макс.: \(viewModel.tempMax)\nВ среднем Макс:1°)")
+        averageBlock.configure(value: viewModel.tempMax, description: "> среднесуточного максимума\nМакс.: \(viewModel.tempMax) Мин.: \(viewModel.tempMin)", subtitle: nil )
         feelsLikeBlock.configure(value: viewModel.feelsLike, description: viewModel.feelsLikeDescription, subtitle: nil)
     }
 }

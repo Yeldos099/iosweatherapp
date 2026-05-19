@@ -103,9 +103,9 @@ final class SearchViewPresenter: SearchViewPresenterProtocol {
                 latitude: latitude,
                 longitude: longitude,
                 description: response.weather.first?.description,
-                tempMax: "\(Int(response.main.tempMax))°",
-                tempMin: "\(Int(response.main.tempMin))°",
-                temperature: "\(Int(response.main.temp))°",
+                tempMax: LocalizationManager.shared.formatTemperature(response.main.tempMax),
+                tempMin: LocalizationManager.shared.formatTemperature(response.main.tempMin),
+                temperature: LocalizationManager.shared.formatTemperature(response.main.temp),
                 isCurrentLocation: isCurrentLocation)
             updateStorage(city: city, isCurrentLocation: isCurrentLocation)
             
