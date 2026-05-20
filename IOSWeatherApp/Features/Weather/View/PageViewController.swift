@@ -59,6 +59,8 @@ final class PageViewController: UIViewController {
         return $0
     }(UIButton())
     
+    var initialCity: CityModel?
+    
     private let transitionDelegate = NavigationTransitionDelegate()
     
     override func viewDidLoad() {
@@ -67,6 +69,7 @@ final class PageViewController: UIViewController {
         setupBottomBar()
         loadCities()
         navigationController?.delegate = transitionDelegate
+        navigationItem.hidesBackButton = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,8 +100,18 @@ final class PageViewController: UIViewController {
     private func loadCities(){
         cities = DIContainer.shared.cityStorage.load()
         guard !cities.isEmpty else { return }
-        indicatorView.configure(count: cities.count, currentIndex: 0)
-        let firstVC = makeWeatherVC(for: 0)
+        
+        let startIndex: Int
+        if let initialCity = initialCity,
+           let index = cities.firstIndex(where: {$0.cityName == initialCity.cityName}) {
+            startIndex = index
+        } else {
+            startIndex = 0
+        }
+        
+        currentIndex = startIndex
+        indicatorView.configure(count: cities.count, currentIndex: startIndex)
+        let firstVC = makeWeatherVC(for: startIndex)
         pageVC.setViewControllers([firstVC], direction: .forward, animated: false)
     }
     

@@ -19,4 +19,10 @@ final class Builder {
     static func createPageViewController() -> PageViewController {
         PageViewController()
     }
+    
+    static func makeWeatherViewController(for city: CityModel) -> PageViewController {
+        let vc = PageViewController()
+        vc.initialCity = city
+        return vc
+    }
 }

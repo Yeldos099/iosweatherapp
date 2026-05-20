@@ -89,17 +89,6 @@ final class SearchViewController: UIViewController {
     }(UIActivityIndicatorView())
     
     
-    private lazy var backBtn: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "chevron.left")
-        config.contentInsets = .zero
-        $0.configuration = config
-        $0.tintColor = .white
-        $0.addAction(UIAction { [weak self] _ in
-            self?.navigationController?.popViewController(animated: true)
-        }, for: .touchUpInside)
-        return $0
-    }(UIButton())
     
     init(presenter: SearchViewPresenterProtocol){
         self.presenter = presenter
@@ -121,16 +110,10 @@ final class SearchViewController: UIViewController {
         view.backgroundColor = .searchBg
         
         
-        [titleLabel, settingsButton, tableView, searchTextfield, emptyLabel, loadingIndicator, backBtn].forEach {
+        [titleLabel, settingsButton, tableView, searchTextfield, emptyLabel, loadingIndicator].forEach {
             view.addSubview($0)
         }
         
-        
-        backBtn.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalTo(titleLabel)
-            $0.width.height.equalTo(44)
-        }
         
         
         searchTextfield.onTextChanged = { [weak self] text in
@@ -253,10 +236,17 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard Section(rawValue: indexPath.section) == .searchResults else { return }
-        presenter.selectCity(searchResults[indexPath.row])
-        searchTextfield.clear()
-        presenter.search(query: "")
+        switch Section(rawValue: indexPath.section) {
+        case .savedCities:
+            let city = savedCities[indexPath.row]
+            let vc = Builder.makeWeatherViewController(for: city)
+            navigationController?.pushViewController(vc, animated: true)
+        case .searchResults:
+            presenter.selectCity(searchResults[indexPath.row])
+            searchTextfield.clear()
+            presenter.search(query: "")
+        case .none: break
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
